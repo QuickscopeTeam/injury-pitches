@@ -250,6 +250,191 @@ body{font-family:'Outfit',sans-serif;color:var(--white);}
 .btn-gold:hover{opacity:0.85;}
 .btn-outline{border:1px solid var(--gold-border);color:var(--gold);font-size:11px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;transition:background 0.2s;}
 .btn-outline:hover{background:var(--gold-dim);}
+
+/* Payment form row */
+.pay-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ══════════════════════════════════════════
+   MOBILE RESPONSIVE STYLES
+══════════════════════════════════════════ */
+
+/* Tablet breakpoint */
+@media (max-width: 1024px) {
+  .slide{padding:40px 32px;}
+  #s1 .inner{grid-template-columns:1fr;gap:40px;}
+  #s2 .inner{grid-template-columns:1fr;gap:32px;}
+  #s4 .inner{grid-template-columns:1fr;gap:32px;}
+  #s6 .inner{grid-template-columns:1fr;gap:32px;}
+  .services-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .pricing-grid{grid-template-columns:1fr;gap:16px;max-width:400px;margin-left:auto;margin-right:auto;}
+  .s7-steps{grid-template-columns:1fr;gap:12px;max-width:400px;margin-left:auto;margin-right:auto;}
+  .s2-right{padding-top:0;}
+  .strat-right{padding-top:0;}
+  #s6 .s6-right{padding-top:0;}
+}
+
+/* Mobile breakpoint */
+@media (max-width: 680px) {
+  /* Base adjustments */
+  html,body{overflow-x:hidden;}
+  .slide{padding:24px 20px 100px 20px;}
+  .inner{max-width:100%;}
+  
+  /* Typography scaling */
+  .display{font-size:clamp(28px,8vw,44px);line-height:1.1;}
+  .eyebrow{font-size:9px;letter-spacing:0.25em;margin-bottom:12px;}
+  .eyebrow::before{width:16px;}
+  .body-text{font-size:14px;line-height:1.65;}
+  .label{font-size:9px;}
+  
+  /* Watermark */
+  #wm{font-size:8px;top:16px;right:16px;letter-spacing:0.15em;}
+  
+  /* Navigation */
+  #nav{
+    bottom:16px;
+    padding:6px 6px 6px 14px;
+    gap:8px;
+    max-width:calc(100vw - 32px);
+  }
+  #nav-info{font-size:10px;letter-spacing:0.1em;}
+  #nav-dots{gap:4px;}
+  .nav-dot{width:4px;height:4px;}
+  .nav-btn{width:30px;height:30px;font-size:12px;}
+  
+  /* ── SLIDE 1: COVER ── */
+  #s1 .inner{grid-template-columns:1fr;gap:28px;}
+  .s1-left .kicker{font-size:9px;letter-spacing:0.3em;margin-bottom:16px;gap:10px;}
+  .s1-left .kicker::before{width:20px;}
+  .s1-left .tagline{font-size:14px;margin-bottom:24px;max-width:100%;}
+  .s1-badge{padding:8px 14px;font-size:11px;gap:8px;}
+  .s1-right{gap:10px;}
+  .s1-stat{padding:16px 18px;border-radius:12px;}
+  .s1-stat-val{font-size:24px;}
+  .s1-stat-val em{font-size:16px;}
+  .s1-stat .label{font-size:9px;}
+  #s1 .s1-stat:first-child .s1-stat-val{font-size:18px !important;line-height:1.4 !important;}
+  .s1-from{font-size:10px;padding-top:4px;}
+  
+  /* ── SLIDE 2: THE VISION ── */
+  #s2 .inner{grid-template-columns:1fr;gap:24px;}
+  .s2-right{gap:10px;padding-top:0;}
+  .opp-card{padding:16px 16px;gap:12px;border-radius:12px;}
+  .opp-num{font-size:22px;width:26px;}
+  .opp-card h4{font-size:14px;}
+  .opp-card p{font-size:12px;}
+  .insight-box{padding:18px 18px;margin-top:20px;border-radius:12px;}
+  .insight-box .iq{font-size:15px;margin-bottom:8px;}
+  .insight-box .iq-src{font-size:9px;}
+  
+  /* ── SLIDE 3: SERVICES ── */
+  .services-header{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:28px;}
+  .services-header p{text-align:left;max-width:100%;}
+  .services-grid{grid-template-columns:1fr;gap:12px;}
+  .svc-card{padding:20px 18px;gap:10px;border-radius:14px;}
+  .svc-icon{width:42px;height:42px;font-size:20px;border-radius:10px;}
+  .svc-name{font-size:14px;}
+  .svc-desc{font-size:12px;}
+  .svc-del{font-size:10px;}
+  
+  /* ── SLIDE 4: STRATEGY ── */
+  #s4 .inner{grid-template-columns:1fr;gap:28px;}
+  .phase{padding:16px 0;gap:14px;}
+  .phase-num{font-size:12px;min-width:24px;}
+  .phase h4{font-size:14px;}
+  .phase p{font-size:12px;}
+  .phase-timeline{font-size:9px;margin-top:4px;}
+  .strat-right{padding-top:0;}
+  .channel-bars{gap:12px;}
+  .ch-bar-name{font-size:11px;}
+  .ch-bar-val{font-size:11px;}
+  .roi-card{padding:20px;margin-top:20px;border-radius:14px;}
+  .roi-card .big{font-size:36px;}
+  .roi-card .big em{font-size:22px;}
+  .roi-card .sub{font-size:11px;}
+  .roi-card p{font-size:12px;}
+  
+  /* ── SLIDE 5: INVESTMENT ── */
+  .pricing-header{margin-bottom:28px;}
+  .pricing-grid{grid-template-columns:1fr;gap:14px;max-width:100%;}
+  .pkg{padding:24px 20px;gap:12px;border-radius:16px;}
+  .pkg-badge{font-size:8px;letter-spacing:0.2em;}
+  .pkg-name{font-size:22px;}
+  .pkg-price{font-size:32px;}
+  .pkg-price span{font-size:12px;}
+  .pkg-desc{font-size:12px;}
+  .pkg-items{gap:5px;}
+  .pkg-item{font-size:11px;gap:6px;}
+  .pkg-item::before{font-size:7px;margin-top:2px;}
+  .pkg-cta,.pkg-cta-ghost{font-size:10px;padding:11px;letter-spacing:0.15em;}
+  .pricing-note{font-size:10px;margin-top:16px;line-height:1.5;}
+  
+  /* ── SLIDE 6: WHY TRANSCEND ── */
+  #s6 .inner{grid-template-columns:1fr;gap:24px;}
+  #s6 .s6-left{gap:16px;}
+  #s6 .s6-right{gap:10px;padding-top:0;}
+  .why-pill{padding:16px 16px;gap:12px;border-radius:12px;}
+  .why-pill-icon{width:34px;height:34px;font-size:15px;border-radius:8px;}
+  .why-pill h4{font-size:12px;}
+  .why-pill p{font-size:11px;}
+  .flywheel{padding:18px 18px;border-radius:12px;}
+  .flywheel-title{font-size:9px;letter-spacing:0.2em;}
+  .flywheel-quote{font-size:13px;margin-bottom:12px;}
+  .flywheel-steps{gap:6px;}
+  .fw-step{font-size:11px;}
+  .fw-arrow{font-size:9px;}
+  
+  /* ── SLIDE 7: NEXT STEPS ── */
+  #s7 .inner{max-width:100%;}
+  .s7-steps{grid-template-columns:1fr;gap:12px;margin:28px 0;max-width:100%;}
+  .step-card{padding:20px 18px;border-radius:14px;}
+  .step-num{font-size:26px;margin-bottom:10px;}
+  .step-card h4{font-size:13px;}
+  .step-card p{font-size:11px;}
+  .cta-phone{font-size:clamp(20px,5vw,28px);margin-bottom:16px;}
+  .cta-row{flex-direction:column;gap:10px;width:100%;}
+  .btn-gold,.btn-outline{width:100%;text-align:center;padding:14px 24px;}
+  
+  /* ── SLIDE 8: CHOOSE TIER ── */
+  #s8 .inner{max-width:100%;}
+  #s8 .pricing-grid{max-width:100%;}
+  
+  /* ── CARDS GENERAL ── */
+  .card{padding:20px 18px;border-radius:14px;}
+  .card-gold{padding:20px 18px;border-radius:14px;}
+  .rule{margin:20px 0;}
+}
+
+/* Small mobile */
+@media (max-width: 380px) {
+  .slide{padding:20px 16px 100px 16px;}
+  .display{font-size:clamp(24px,7vw,36px);}
+  #nav{padding:5px 5px 5px 10px;gap:6px;}
+  #nav-info{font-size:9px;}
+  .nav-btn{width:28px;height:28px;font-size:11px;}
+  .s1-badge{flex-wrap:wrap;justify-content:center;text-align:center;}
+}
+
+/* Payment Modal Mobile */
+@media (max-width: 680px) {
+  #pay-modal{
+    padding:28px 22px;
+    border-radius:20px;
+    max-height:90vh;
+    overflow-y:auto;
+  }
+  .pay-form-row{grid-template-columns:1fr;gap:10px;}
+  #pay-modal > div:first-of-type{font-size:9px;}
+  #pay-pkg-name{font-size:24px;}
+  #pay-pkg-price{font-size:12px;margin-bottom:20px;}
+  #pay-pkg-items{gap:6px;margin-bottom:20px;}
+  #pay-pkg-items > div{font-size:12px;}
+  #pay-modal input{padding:11px 14px;font-size:13px;border-radius:8px;}
+  #card-element-wrap{padding:12px 14px;border-radius:8px;}
+  #card-placeholder{font-size:12px;}
+  #pay-submit-btn{padding:14px;font-size:11px;letter-spacing:0.15em;}
+  #pay-msg{font-size:12px;}
+}
 </style>
 </head>
 <body>
@@ -745,7 +930,7 @@ updateNav();
 
 <!-- ── PAYMENT MODAL ── -->
 <div id="pay-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;">
-  <div id="pay-modal" style="background:#161616;border:1px solid rgba(201,168,76,0.25);border-radius:24px;padding:44px 40px;width:min(520px,calc(100vw - 40px));position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.7);">
+  <div id="pay-modal" style="background:#161616;border:1px solid rgba(201,168,76,0.25);border-radius:24px;padding:44px 40px;width:min(520px,calc(100vw - 40px));max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.7);">
     <!-- Close -->
     <button onclick="closeModal()" style="position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     <!-- Header -->
@@ -758,9 +943,9 @@ updateNav();
     <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:24px;"></div>
     <!-- Form -->
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <input id="pay-name" type="text" placeholder="Full name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-        <input id="pay-email" type="email" placeholder="Email address" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <div class="pay-form-row">
+        <input id="pay-name" type="text" placeholder="Full name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <input id="pay-email" type="email" placeholder="Email address" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
       </div>
       <!-- Stripe card element placeholder -->
       <div id="card-element-wrap" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;min-height:44px;display:flex;align-items:center;">
