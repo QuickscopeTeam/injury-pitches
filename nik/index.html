@@ -275,165 +275,190 @@ body{font-family:'Outfit',sans-serif;color:var(--white);}
 
 /* Mobile breakpoint */
 @media (max-width: 680px) {
-  /* Base adjustments */
+  /* ── CORE: Enable vertical scroll within slides ── */
   html,body{overflow-x:hidden;}
-  .slide{padding:24px 20px 100px 20px;}
-  .inner{max-width:100%;}
-  
-  /* Typography scaling */
-  .display{font-size:clamp(28px,8vw,44px);line-height:1.1;}
-  .eyebrow{font-size:9px;letter-spacing:0.25em;margin-bottom:12px;}
-  .eyebrow::before{width:16px;}
-  .body-text{font-size:14px;line-height:1.65;}
-  .label{font-size:9px;}
-  
-  /* Watermark */
-  #wm{font-size:8px;top:16px;right:16px;letter-spacing:0.15em;}
-  
-  /* Navigation */
-  #nav{
-    bottom:16px;
-    padding:6px 6px 6px 14px;
-    gap:8px;
-    max-width:calc(100vw - 32px);
+  .slide{
+    padding:20px 20px 90px 20px;
+    align-items:flex-start !important;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
   }
-  #nav-info{font-size:10px;letter-spacing:0.1em;}
-  #nav-dots{gap:4px;}
+  .inner{max-width:100%;padding-top:12px;}
+
+  /* Typography scaling */
+  .display{font-size:clamp(26px,7.5vw,40px);line-height:1.08;}
+  .eyebrow{font-size:9px;letter-spacing:0.2em;margin-bottom:10px;}
+  .eyebrow::before{width:14px;}
+  .body-text{font-size:13px;line-height:1.6;}
+  .label{font-size:9px;}
+
+  /* Watermark */
+  #wm{font-size:7px;top:10px;right:12px;letter-spacing:0.12em;}
+
+  /* Navigation — compact pill */
+  #nav{
+    bottom:10px;
+    padding:5px 5px 5px 12px;
+    gap:6px;
+    max-width:calc(100vw - 24px);
+    border-radius:80px;
+  }
+  #nav-info{font-size:9px;letter-spacing:0.08em;}
+  #nav-dots{gap:3px;}
   .nav-dot{width:4px;height:4px;}
-  .nav-btn{width:30px;height:30px;font-size:12px;}
-  
+  .nav-btn{width:28px;height:28px;font-size:11px;}
+
   /* ── SLIDE 1: COVER ── */
-  #s1 .inner{grid-template-columns:1fr;gap:28px;}
-  .s1-left .kicker{font-size:9px;letter-spacing:0.3em;margin-bottom:16px;gap:10px;}
-  .s1-left .kicker::before{width:20px;}
-  .s1-left .tagline{font-size:14px;margin-bottom:24px;max-width:100%;}
-  .s1-badge{padding:8px 14px;font-size:11px;gap:8px;}
-  .s1-right{gap:10px;}
-  .s1-stat{padding:16px 18px;border-radius:12px;}
-  .s1-stat-val{font-size:24px;}
-  .s1-stat-val em{font-size:16px;}
-  .s1-stat .label{font-size:9px;}
-  #s1 .s1-stat:first-child .s1-stat-val{font-size:18px !important;line-height:1.4 !important;}
-  .s1-from{font-size:10px;padding-top:4px;}
-  
+  #s1 .inner{grid-template-columns:1fr;gap:20px;}
+  .s1-left .kicker{font-size:9px;letter-spacing:0.25em;margin-bottom:12px;gap:8px;}
+  .s1-left .kicker::before{width:16px;}
+  .s1-left .tagline{font-size:13px;margin-bottom:18px;max-width:100%;}
+  .s1-badge{padding:7px 12px;font-size:10px;gap:6px;}
+  .s1-right{gap:8px;}
+  .s1-stat{padding:14px 16px;border-radius:10px;}
+  .s1-stat-val{font-size:20px;}
+  .s1-stat-val em{font-size:14px;}
+  .s1-stat .label{font-size:8px;}
+  #s1 .s1-stat:first-child .s1-stat-val{font-size:16px !important;line-height:1.35 !important;}
+  .s1-from{font-size:9px;padding-top:2px;}
+
   /* ── SLIDE 2: THE VISION ── */
-  #s2 .inner{grid-template-columns:1fr;gap:24px;}
-  .s2-right{gap:10px;padding-top:0;}
-  .opp-card{padding:16px 16px;gap:12px;border-radius:12px;}
-  .opp-num{font-size:22px;width:26px;}
-  .opp-card h4{font-size:14px;}
-  .opp-card p{font-size:12px;}
-  .insight-box{padding:18px 18px;margin-top:20px;border-radius:12px;}
-  .insight-box .iq{font-size:15px;margin-bottom:8px;}
-  .insight-box .iq-src{font-size:9px;}
-  
+  #s2 .inner{grid-template-columns:1fr;gap:20px;}
+  .s2-right{gap:8px;padding-top:0;}
+  .opp-card{padding:14px 14px;gap:10px;border-radius:10px;}
+  .opp-num{font-size:20px;width:24px;}
+  .opp-card h4{font-size:13px;margin-bottom:2px;}
+  .opp-card p{font-size:11px;line-height:1.5;}
+  .insight-box{padding:14px 14px;margin-top:16px;border-radius:10px;}
+  .insight-box .iq{font-size:14px;margin-bottom:6px;}
+  .insight-box .iq-src{font-size:8px;}
+
   /* ── SLIDE 3: SERVICES ── */
-  .services-header{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:28px;}
-  .services-header p{text-align:left;max-width:100%;}
-  .services-grid{grid-template-columns:1fr;gap:12px;}
-  .svc-card{padding:20px 18px;gap:10px;border-radius:14px;}
-  .svc-icon{width:42px;height:42px;font-size:20px;border-radius:10px;}
-  .svc-name{font-size:14px;}
-  .svc-desc{font-size:12px;}
-  .svc-del{font-size:10px;}
-  
+  .services-header{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:20px;}
+  .services-header .display{font-size:clamp(22px,6vw,32px) !important;}
+  .services-header p{text-align:left;max-width:100%;font-size:12px;}
+  .services-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .svc-card{padding:14px 12px;gap:6px;border-radius:12px;}
+  .svc-icon{width:32px;height:32px;font-size:16px;border-radius:8px;}
+  .svc-name{font-size:13px;}
+  .svc-desc{font-size:10px;line-height:1.45;}
+  .svc-deliverables{gap:2px;}
+  .svc-del{font-size:9px;}
+
   /* ── SLIDE 4: STRATEGY ── */
-  #s4 .inner{grid-template-columns:1fr;gap:28px;}
-  .phase{padding:16px 0;gap:14px;}
-  .phase-num{font-size:12px;min-width:24px;}
-  .phase h4{font-size:14px;}
-  .phase p{font-size:12px;}
-  .phase-timeline{font-size:9px;margin-top:4px;}
+  #s4 .inner{grid-template-columns:1fr;gap:20px;}
+  #s4 .display{font-size:clamp(24px,6.5vw,36px) !important;}
+  .phase{padding:12px 0;gap:10px;}
+  .phase-num{font-size:11px;min-width:22px;}
+  .phase h4{font-size:13px;margin-bottom:2px;}
+  .phase p{font-size:11px;line-height:1.5;}
+  .phase-timeline{font-size:8px;margin-top:3px;}
   .strat-right{padding-top:0;}
-  .channel-bars{gap:12px;}
-  .ch-bar-name{font-size:11px;}
-  .ch-bar-val{font-size:11px;}
-  .roi-card{padding:20px;margin-top:20px;border-radius:14px;}
-  .roi-card .big{font-size:36px;}
-  .roi-card .big em{font-size:22px;}
-  .roi-card .sub{font-size:11px;}
-  .roi-card p{font-size:12px;}
-  
+  .channel-bars{gap:10px;}
+  .ch-bar-name{font-size:10px;}
+  .ch-bar-val{font-size:10px;}
+  .roi-card{padding:16px;margin-top:16px;border-radius:12px;}
+  .roi-card .big{font-size:32px;}
+  .roi-card .big em{font-size:20px;}
+  .roi-card .sub{font-size:10px;}
+  .roi-card p{font-size:11px;line-height:1.5;}
+
   /* ── SLIDE 5: INVESTMENT ── */
-  .pricing-header{margin-bottom:28px;}
-  .pricing-grid{grid-template-columns:1fr;gap:14px;max-width:100%;}
-  .pkg{padding:24px 20px;gap:12px;border-radius:16px;}
-  .pkg-badge{font-size:8px;letter-spacing:0.2em;}
-  .pkg-name{font-size:22px;}
-  .pkg-price{font-size:32px;}
-  .pkg-price span{font-size:12px;}
-  .pkg-desc{font-size:12px;}
-  .pkg-items{gap:5px;}
-  .pkg-item{font-size:11px;gap:6px;}
-  .pkg-item::before{font-size:7px;margin-top:2px;}
-  .pkg-cta,.pkg-cta-ghost{font-size:10px;padding:11px;letter-spacing:0.15em;}
-  .pricing-note{font-size:10px;margin-top:16px;line-height:1.5;}
-  
+  .pricing-header{margin-bottom:20px;}
+  .pricing-header .display{font-size:clamp(24px,6.5vw,36px) !important;}
+  .pricing-grid{grid-template-columns:1fr;gap:10px;max-width:100%;}
+  .pkg{padding:18px 16px;gap:8px;border-radius:14px;}
+  .pkg-badge{font-size:8px;letter-spacing:0.18em;margin-bottom:0;}
+  .pkg-name{font-size:20px;}
+  .pkg-price{font-size:28px;}
+  .pkg-price span{font-size:11px;}
+  .pkg-desc{font-size:11px;line-height:1.5;}
+  .pkg-items{gap:4px;}
+  .pkg-item{font-size:10px;gap:5px;line-height:1.3;}
+  .pkg-item::before{font-size:6px;margin-top:2px;}
+  .pkg-cta,.pkg-cta-ghost{font-size:9px;padding:10px;letter-spacing:0.12em;}
+  .pricing-note{font-size:9px;margin-top:12px;line-height:1.5;}
+
   /* ── SLIDE 6: WHY TRANSCEND ── */
-  #s6 .inner{grid-template-columns:1fr;gap:24px;}
-  #s6 .s6-left{gap:16px;}
-  #s6 .s6-right{gap:10px;padding-top:0;}
-  .why-pill{padding:16px 16px;gap:12px;border-radius:12px;}
-  .why-pill-icon{width:34px;height:34px;font-size:15px;border-radius:8px;}
+  #s6 .inner{grid-template-columns:1fr;gap:18px;}
+  #s6 .s6-left{gap:14px;}
+  #s6 .s6-right{gap:8px;padding-top:0;}
+  .why-pill{padding:12px 12px;gap:10px;border-radius:10px;}
+  .why-pill-icon{width:30px;height:30px;font-size:14px;border-radius:7px;}
   .why-pill h4{font-size:12px;}
-  .why-pill p{font-size:11px;}
-  .flywheel{padding:18px 18px;border-radius:12px;}
-  .flywheel-title{font-size:9px;letter-spacing:0.2em;}
-  .flywheel-quote{font-size:13px;margin-bottom:12px;}
-  .flywheel-steps{gap:6px;}
-  .fw-step{font-size:11px;}
-  .fw-arrow{font-size:9px;}
-  
+  .why-pill p{font-size:10px;line-height:1.45;}
+  .flywheel{padding:14px 14px;border-radius:10px;}
+  .flywheel-title{font-size:8px;letter-spacing:0.18em;}
+  .flywheel-quote{font-size:12px;margin-bottom:10px;line-height:1.5;}
+  .flywheel-steps{gap:4px;}
+  .fw-step{font-size:10px;}
+  .fw-arrow{font-size:8px;}
+
   /* ── SLIDE 7: NEXT STEPS ── */
   #s7 .inner{max-width:100%;}
-  .s7-steps{grid-template-columns:1fr;gap:12px;margin:28px 0;max-width:100%;}
-  .step-card{padding:20px 18px;border-radius:14px;}
-  .step-num{font-size:26px;margin-bottom:10px;}
-  .step-card h4{font-size:13px;}
-  .step-card p{font-size:11px;}
-  .cta-phone{font-size:clamp(20px,5vw,28px);margin-bottom:16px;}
-  .cta-row{flex-direction:column;gap:10px;width:100%;}
-  .btn-gold,.btn-outline{width:100%;text-align:center;padding:14px 24px;}
-  
+  #s7 .display{font-size:clamp(28px,8vw,44px) !important;}
+  .s7-steps{grid-template-columns:1fr;gap:10px;margin:22px 0;max-width:100%;}
+  .step-card{padding:16px 16px;border-radius:12px;}
+  .step-num{font-size:22px;margin-bottom:6px;}
+  .step-card h4{font-size:12px;}
+  .step-card p{font-size:10px;line-height:1.45;}
+  .cta-phone{font-size:clamp(18px,5vw,26px);margin-bottom:12px;}
+  .cta-row{flex-direction:column;gap:8px;width:100%;}
+  .btn-gold,.btn-outline{width:100%;text-align:center;padding:12px 20px;font-size:10px;}
+
   /* ── SLIDE 8: CHOOSE TIER ── */
   #s8 .inner{max-width:100%;}
   #s8 .pricing-grid{max-width:100%;}
-  
+  #s8 .display{font-size:clamp(24px,6.5vw,36px) !important;}
+
   /* ── CARDS GENERAL ── */
-  .card{padding:20px 18px;border-radius:14px;}
-  .card-gold{padding:20px 18px;border-radius:14px;}
-  .rule{margin:20px 0;}
+  .card{padding:16px 14px;border-radius:12px;}
+  .card-gold{padding:16px 14px;border-radius:12px;}
+  .rule{margin:16px 0;}
+
+  /* ── Hide decorative orbs on mobile (perf + clutter) ── */
+  .orb{display:none;}
 }
 
 /* Small mobile */
 @media (max-width: 380px) {
-  .slide{padding:20px 16px 100px 16px;}
-  .display{font-size:clamp(24px,7vw,36px);}
-  #nav{padding:5px 5px 5px 10px;gap:6px;}
-  #nav-info{font-size:9px;}
-  .nav-btn{width:28px;height:28px;font-size:11px;}
-  .s1-badge{flex-wrap:wrap;justify-content:center;text-align:center;}
+  .slide{padding:16px 14px 86px 14px;}
+  .display{font-size:clamp(22px,6.5vw,32px);}
+  #nav{padding:4px 4px 4px 10px;gap:5px;}
+  #nav-info{font-size:8px;}
+  .nav-btn{width:26px;height:26px;font-size:10px;}
+  .s1-badge{flex-wrap:wrap;justify-content:center;text-align:center;font-size:9px;}
+  .services-grid{grid-template-columns:1fr;gap:8px;}
+  .svc-card{padding:14px 14px;}
+  .pkg{padding:16px 14px;}
+  .pkg-name{font-size:18px;}
+  .pkg-price{font-size:24px;}
+  .why-pill{padding:10px 10px;}
+  .step-card{padding:14px 14px;}
 }
 
 /* Payment Modal Mobile */
 @media (max-width: 680px) {
+  #pay-overlay{padding:12px;}
   #pay-modal{
-    padding:28px 22px;
-    border-radius:20px;
-    max-height:90vh;
+    padding:24px 18px;
+    border-radius:18px;
+    max-height:92vh;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    width:100% !important;
   }
-  .pay-form-row{grid-template-columns:1fr;gap:10px;}
-  #pay-modal > div:first-of-type{font-size:9px;}
-  #pay-pkg-name{font-size:24px;}
-  #pay-pkg-price{font-size:12px;margin-bottom:20px;}
-  #pay-pkg-items{gap:6px;margin-bottom:20px;}
-  #pay-pkg-items > div{font-size:12px;}
-  #pay-modal input{padding:11px 14px;font-size:13px;border-radius:8px;}
-  #card-element-wrap{padding:12px 14px;border-radius:8px;}
-  #card-placeholder{font-size:12px;}
-  #pay-submit-btn{padding:14px;font-size:11px;letter-spacing:0.15em;}
-  #pay-msg{font-size:12px;}
+  .pay-form-row{grid-template-columns:1fr;gap:8px;}
+  #pay-modal > div:first-of-type{font-size:8px;}
+  #pay-pkg-name{font-size:22px;}
+  #pay-pkg-price{font-size:11px;margin-bottom:16px;}
+  #pay-pkg-items{gap:5px;margin-bottom:16px;}
+  #pay-pkg-items > div{font-size:11px;}
+  #pay-modal input{padding:10px 12px;font-size:13px;border-radius:8px;}
+  #card-element-wrap{padding:10px 12px;border-radius:8px;}
+  #card-placeholder{font-size:11px;}
+  #pay-submit-btn{padding:13px;font-size:10px;letter-spacing:0.12em;}
+  #pay-msg{font-size:11px;}
 }
 </style>
 </head>
@@ -909,13 +934,24 @@ document.addEventListener('keydown', e => {
   if(e.key==='ArrowLeft'||e.key==='ArrowUp') cur > 0 && goTo(cur-1,-1);
 });
 
-// Touch swipe
-let tx = 0;
-document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+// Touch swipe — only trigger on horizontal swipes, allow vertical scroll
+let tx = 0, ty = 0, swiping = null;
+document.addEventListener('touchstart', e => {
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+  swiping = null;
+}, {passive: true});
+document.addEventListener('touchmove', e => {
+  if (swiping !== null) return;
+  const dx = Math.abs(e.touches[0].clientX - tx);
+  const dy = Math.abs(e.touches[0].clientY - ty);
+  if (dx > 10 || dy > 10) swiping = dx > dy ? 'h' : 'v';
+}, {passive: true});
 document.addEventListener('touchend', e => {
+  if (swiping !== 'h') return;
   const dx = tx - e.changedTouches[0].clientX;
-  if(Math.abs(dx) > 50) dx > 0 ? (cur < total-1 && goTo(cur+1,1)) : (cur > 0 && goTo(cur-1,-1));
-});
+  if (Math.abs(dx) > 50) dx > 0 ? (cur < total-1 && goTo(cur+1,1)) : (cur > 0 && goTo(cur-1,-1));
+}, {passive: true});
 
 // Bars animation
 function triggerBars() {
