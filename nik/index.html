@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>attorney.nik × Transcend Media — Growth Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080808;
+  --dark: #111111;
+  --card: #161616;
+  --border: rgba(255,255,255,0.07);
+  --white: #ffffff;
+  --off: #f0ede8;
+  --muted: #6a6a6a;
+  --silver: #a0a0a0;
+  --gold: #c9a84c;
+  --gold-light: #dfc278;
+  --gold-dim: rgba(201,168,76,0.12);
+  --gold-border: rgba(201,168,76,0.25);
+  --accent: #c9a84c;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--black);}
+body{font-family:'Outfit',sans-serif;color:var(--white);}
+
+/* ── DECK SHELL ── */
+#deck{width:100vw;height:100vh;position:relative;overflow:hidden;}
+
+/* ── SLIDES ── */
+.slide{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0s;padding:60px;
+}
+.slide.active{opacity:1;pointer-events:all;}
+.slide.exit-left{animation:exitLeft 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.enter-right{animation:enterRight 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.exit-right{animation:exitRight 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.enter-left{animation:enterLeft 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
+
+@keyframes exitLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-60px)}}
+@keyframes enterRight{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes exitRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
+@keyframes enterLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── GLOBAL BG ── */
+.slide-bg{position:absolute;inset:0;z-index:0;}
+.noise{position:absolute;inset:0;opacity:0.018;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;}
+.orb{position:absolute;border-radius:50%;pointer-events:none;}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:1000;display:flex;align-items:center;gap:0;
+  background:rgba(22,22,22,0.92);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:100px;
+  padding:8px 8px 8px 20px;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+}
+#nav-info{font-size:11px;letter-spacing:0.15em;color:var(--muted);white-space:nowrap;}
+#nav-dots{display:flex;gap:6px;align-items:center;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);cursor:pointer;transition:background 0.2s,transform 0.2s;}
+.nav-dot.on{background:var(--gold);transform:scale(1.4);}
+.nav-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--silver);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,color 0.2s;flex-shrink:0;}
+.nav-btn:hover{background:var(--gold);color:var(--black);}
+
+/* ── PROGRESS ── */
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:999;transition:width 0.4s ease;}
+
+/* ── WATERMARK ── */
+#wm{position:fixed;top:24px;right:28px;z-index:999;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.18);}
+
+/* ── SLIDE INNER CONTENT ── */
+.inner{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;}
+
+/* ── ANIM HELPERS ── */
+.a{opacity:0;transform:translateY(20px);}
+.active .a{animation:fadeUp 0.6s ease forwards;}
+.active .a:nth-child(1){animation-delay:0.1s}
+.active .a:nth-child(2){animation-delay:0.2s}
+.active .a:nth-child(3){animation-delay:0.3s}
+.active .a:nth-child(4){animation-delay:0.4s}
+.active .a:nth-child(5){animation-delay:0.5s}
+.active .a:nth-child(6){animation-delay:0.6s}
+.active .a:nth-child(7){animation-delay:0.7s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--gold);flex-shrink:0;}
+.display{font-family:'Playfair Display',serif;font-size:clamp(44px,5.5vw,80px);font-weight:400;line-height:1.0;letter-spacing:-0.01em;}
+.display em{font-style:italic;color:var(--gold);}
+.body-text{font-size:15px;font-weight:300;line-height:1.75;color:rgba(255,255,255,0.5);}
+.label{font-size:10px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 26px;transition:border-color 0.25s,transform 0.25s;}
+.card:hover{border-color:var(--gold-border);transform:translateY(-2px);}
+.card-gold{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:16px;padding:28px 26px;}
+
+/* ── DIVIDER ── */
+.rule{width:100%;height:1px;background:var(--border);margin:28px 0;}
+.rule-gold{width:40px;height:1px;background:var(--gold);margin-bottom:20px;}
+
+/* ──────────────────────────────────────────
+   SLIDE 1 — COVER
+────────────────────────────────────────── */
+#s1{background:var(--black);}
+#s1 .orb-1{width:700px;height:700px;top:-200px;right:-200px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);}
+#s1 .orb-2{width:400px;height:400px;bottom:-100px;left:-100px;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);}
+#s1 .inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.s1-left .kicker{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:14px;}
+.s1-left .kicker::before{content:"";width:32px;height:1px;background:var(--gold);}
+.s1-left .display{margin-bottom:24px;}
+.s1-left .tagline{font-size:16px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:36px;max-width:380px;}
+.s1-badge{display:inline-flex;align-items:center;gap:10px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:100px;padding:10px 20px;font-size:12px;font-weight:500;color:var(--gold);letter-spacing:0.08em;}
+.s1-right{display:flex;flex-direction:column;gap:14px;}
+.s1-stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;transition:border-color 0.3s;}
+.s1-stat:hover{border-color:var(--gold-border);}
+.s1-stat-val{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--white);}
+.s1-stat-val em{font-style:italic;color:var(--gold);font-size:20px;}
+.s1-stat-lbl{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:right;}
+.s1-from{font-size:11px;color:rgba(255,255,255,0.18);text-align:center;letter-spacing:0.08em;padding-top:8px;}
+
+/* ──────────────────────────────────────────
+   SLIDE 2 — THE OPPORTUNITY
+────────────────────────────────────────── */
+#s2{background:var(--black);}
+#s2 .inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.s2-left{}
+.s2-right{display:flex;flex-direction:column;gap:12px;padding-top:60px;}
+.opp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 22px;display:flex;gap:16px;align-items:flex-start;transition:border-color 0.25s,transform 0.3s;}
+.opp-card:hover{border-color:var(--gold-border);transform:translateX(4px);}
+.opp-num{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);line-height:1;flex-shrink:0;width:32px;}
+.opp-card h4{font-size:15px;font-weight:500;color:var(--white);margin-bottom:5px;}
+.opp-card p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;}
+.insight-box{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:14px;padding:22px 24px;margin-top:28px;}
+.insight-box .iq{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--off);line-height:1.5;margin-bottom:10px;}
+.insight-box .iq-src{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+
+/* ──────────────────────────────────────────
+   SLIDE 3 — SERVICES
+────────────────────────────────────────── */
+#s3{background:var(--dark);}
+#s3 .inner{}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 22px;display:flex;flex-direction:column;gap:12px;transition:border-color 0.25s,transform 0.25s;cursor:default;}
+.svc-card:hover{border-color:var(--gold-border);transform:translateY(-4px);}
+.svc-icon{font-size:24px;width:48px;height:48px;background:var(--gold-dim);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:transform 0.25s;}
+.svc-card:hover .svc-icon{transform:scale(1.1);}
+.svc-name{font-size:15px;font-weight:500;color:var(--white);}
+.svc-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;flex:1;}
+.svc-deliverables{display:flex;flex-direction:column;gap:4px;margin-top:auto;}
+.svc-del{font-size:11px;color:rgba(255,255,255,0.3);display:flex;align-items:center;gap:6px;}
+.svc-del::before{content:"·";color:var(--gold);}
+
+/* ──────────────────────────────────────────
+   SLIDE 4 — STRATEGY
+────────────────────────────────────────── */
+#s4{background:var(--black);}
+#s4 .inner{display:grid;grid-template-columns:420px 1fr;gap:72px;align-items:start;}
+.phase-list{display:flex;flex-direction:column;gap:0;}
+.phase{padding:22px 0;border-bottom:1px solid var(--border);display:flex;gap:20px;cursor:pointer;transition:padding-left 0.3s;}
+.phase:hover{padding-left:8px;}
+.phase:last-child{border-bottom:none;}
+.phase-num{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);min-width:28px;padding-top:2px;}
+.phase h4{font-size:15px;font-weight:500;color:var(--white);margin-bottom:4px;}
+.phase p{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;}
+.phase-timeline{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-top:6px;}
+.strat-right{padding-top:60px;}
+.channel-bars{display:flex;flex-direction:column;gap:16px;}
+.ch-bar-item{}
+.ch-bar-header{display:flex;justify-content:space-between;margin-bottom:7px;}
+.ch-bar-name{font-size:12px;font-weight:500;color:var(--white);}
+.ch-bar-val{font-size:12px;color:var(--gold);}
+.ch-bar-track{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.ch-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0;transition:width 1.2s ease;}
+.roi-card{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:16px;padding:24px;margin-top:28px;}
+.roi-card .big{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--white);line-height:1;}
+.roi-card .big em{font-style:italic;color:var(--gold);font-size:28px;}
+.roi-card .sub{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+
+/* ──────────────────────────────────────────
+   SLIDE 5 — INVESTMENT
+────────────────────────────────────────── */
+#s5{background:var(--dark);}
+#s5 .inner{}
+.pricing-header{text-align:center;margin-bottom:44px;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+.pkg{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 28px;display:flex;flex-direction:column;gap:14px;transition:border-color 0.3s,transform 0.3s;}
+.pkg:hover{transform:translateY(-4px);}
+.pkg.featured{background:rgba(201,168,76,0.07);border:1px solid var(--gold-border);}
+.pkg.featured:hover{border-color:var(--gold);}
+.pkg-badge{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.pkg-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--white);}
+.pkg-price{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--white);line-height:1;}
+.pkg-price span{font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--muted);}
+.pkg-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.6;flex:1;}
+.pkg-items{display:flex;flex-direction:column;gap:7px;margin-top:auto;}
+.pkg-item{font-size:12px;font-weight:300;color:rgba(255,255,255,0.45);display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.pkg-item::before{content:"✦";color:var(--gold);font-size:8px;flex-shrink:0;margin-top:3px;}
+.pkg-item.included{color:rgba(255,255,255,0.7);}
+.pkg-cta{background:var(--gold);color:var(--black);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:12px;border-radius:100px;text-align:center;cursor:pointer;border:none;transition:opacity 0.2s;margin-top:8px;}
+.pkg-cta:hover{opacity:0.85;}
+.pkg-cta-ghost{background:transparent;color:var(--gold);font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;padding:12px;border-radius:100px;text-align:center;cursor:pointer;border:1px solid var(--gold-border);transition:background 0.2s;margin-top:8px;}
+.pkg-cta-ghost:hover{background:var(--gold-dim);}
+.pricing-note{text-align:center;font-size:12px;color:var(--muted);letter-spacing:0.06em;}
+
+/* ──────────────────────────────────────────
+   SLIDE 6 — WHY TRANSCEND
+────────────────────────────────────────── */
+#s6{background:var(--black);}
+#s6 .inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+#s6 .s6-left{display:flex;flex-direction:column;gap:20px;}
+#s6 .s6-right{display:flex;flex-direction:column;gap:12px;padding-top:52px;}
+.why-pill{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 20px;transition:border-color 0.25s,transform 0.25s;}
+.why-pill:hover{border-color:var(--gold-border);transform:translateX(3px);}
+.why-pill.gold{background:var(--gold-dim);border-color:var(--gold-border);}
+.why-pill-icon{font-size:18px;width:38px;height:38px;background:rgba(255,255,255,0.05);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.why-pill.gold .why-pill-icon{background:rgba(201,168,76,0.15);}
+.why-pill h4{font-size:13px;font-weight:500;color:var(--white);margin-bottom:3px;line-height:1.3;}
+.why-pill p{font-size:12px;font-weight:300;color:var(--muted);line-height:1.5;}
+.why-pill.gold h4{color:var(--gold);}
+.flywheel{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:14px;padding:22px 24px;}
+.flywheel-title{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.flywheel-quote{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:14px;}
+.flywheel-steps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.fw-step{font-family:'Playfair Display',serif;font-size:13px;color:var(--white);white-space:nowrap;}
+.fw-step em{color:var(--gold);font-style:italic;}
+.fw-arrow{color:rgba(201,168,76,0.4);font-size:11px;}
+
+/* ──────────────────────────────────────────
+   SLIDE 7 — NEXT STEPS / CTA
+────────────────────────────────────────── */
+#s7{background:var(--black);}
+#s7 .orb-1{width:800px;height:800px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 65%);}
+#s7 .inner{text-align:center;max-width:680px;}
+.s7-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:44px 0;}
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 20px;text-align:left;transition:border-color 0.25s;}
+.step-card:hover{border-color:var(--gold-border);}
+.step-num{font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:1;margin-bottom:12px;}
+.step-card h4{font-size:14px;font-weight:500;color:var(--white);margin-bottom:6px;}
+.step-card p{font-size:12px;font-weight:300;color:var(--muted);line-height:1.55;}
+.cta-phone{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,40px);color:var(--white);text-decoration:none;display:block;margin-bottom:20px;transition:color 0.2s;letter-spacing:0.04em;}
+.cta-phone:hover{color:var(--gold);}
+.cta-row{display:flex;gap:12px;justify-content:center;}
+.btn-gold{background:var(--gold);color:var(--black);font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;transition:opacity 0.2s;}
+.btn-gold:hover{opacity:0.85;}
+.btn-outline{border:1px solid var(--gold-border);color:var(--gold);font-size:11px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border-radius:100px;text-decoration:none;transition:background 0.2s;}
+.btn-outline:hover{background:var(--gold-dim);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="wm">Transcend Media × attorney.nik</div>
+<div class="noise"></div>
+
+<div id="deck">
+
+<!-- ── SLIDE 1: COVER ── -->
+<div class="slide active" id="s1">
+  <div class="slide-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+  <div class="inner">
+    <div class="s1-left">
+      <div class="kicker a">Growth Proposal · 2026</div>
+      <div class="display a">Building the<br><em>attorney.nik</em><br>brand.</div>
+      <p class="tagline a">A media strategy built around you — to make attorney.nik the name people in Atlanta call first.</p>
+      <div class="s1-badge a">✦ &nbsp; Presented by Transcend Media Agency</div>
+    </div>
+    <div class="s1-right">
+      <div class="s1-stat a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div>
+          <div class="s1-stat-val" style="color:var(--gold);font-size:22px;line-height:1.3;">"Let's make you famous."</div>
+          <div class="label" style="margin-top:8px;color:rgba(201,168,76,0.7);">— Ry, Transcend Media</div>
+        </div>
+      </div>
+      <div class="s1-stat a">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="label" style="margin-bottom:2px;">We already talked about this over dinner.</div>
+          <div style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.65;">This is just that conversation written down — built around your vision, your voice, where you want to take this.</div>
+        </div>
+      </div>
+      <div class="s1-stat a">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="label" style="margin-bottom:2px;">The goal is simple.</div>
+          <div style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.65;">Take everything you've already built — your wins, your story, your personality — and make Atlanta know about it.</div>
+        </div>
+      </div>
+      <div class="s1-from a">Prepared exclusively for Nikita "Nik" Zlatopolsky</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 2: THE VISION ── -->
+<div class="slide" id="s2">
+  <div class="slide-bg"><div class="orb" style="width:500px;height:500px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(201,168,76,0.05),transparent 70%);"></div></div>
+  <div class="inner">
+    <div class="s2-left">
+      <div class="eyebrow a">What We Talked About</div>
+      <h2 class="display a">Authentic.<br>Raw.<br><em>Converting.</em></h2>
+      <p class="body-text a" style="margin-top:20px;max-width:380px;">You want people to see the real Nik — the attorney who gives a damn, speaks plainly, and shows up. That's your brand, and your biggest asset in today's ecosystem.</p>
+      <div class="insight-box a">
+        <div class="iq">"People don't hire the most qualified attorney. They hire the one they feel they already know. Content gets you in the room before you ever pick up the phone."</div>
+        <div class="iq-src">✦ &nbsp; From our conversation, March 2026</div>
+      </div>
+    </div>
+    <div class="s2-right">
+      <div class="opp-card a">
+        <div class="opp-num">01</div>
+        <div><h4>Authentic &amp; raw first</h4><p>No scripts, no polish. Real takes, real Nik. The audience feels the difference — and trust follows.</p></div>
+      </div>
+      <div class="opp-card a">
+        <div class="opp-num">02</div>
+        <div><h4>Riding trends that actually fit</h4><p>Trending formats, reaction content, case breakdowns — we find what maps to your voice and test fast. No trend for trend's sake.</p></div>
+      </div>
+      <div class="opp-card a">
+        <div class="opp-num">03</div>
+        <div><h4>Media that converts, not just performs</h4><p>Every piece of content answers one question: does this make someone want to call Nik? If not, we cut it.</p></div>
+      </div>
+      <div class="opp-card a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div class="opp-num" style="color:var(--gold);">✦</div>
+        <div><h4 style="color:var(--gold);">The Russian community angle</h4><p style="color:rgba(255,255,255,0.55);">You're fluent. The Atlanta Russian-speaking community is underserved by PI attorneys who speak their language. We build a dedicated content lane for this audience.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 3: SERVICES ── -->
+<div class="slide" id="s3">
+  <div class="inner">
+    <div class="services-header">
+      <div>
+        <div class="eyebrow a">What We Build</div>
+        <h2 class="display a" style="font-size:clamp(32px,4vw,56px);">Four pillars of the<br><em>attorney.nik</em> system.</h2>
+      </div>
+      <p class="body-text a" style="max-width:300px;text-align:right;">Every service is designed to work together — not in isolation.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card a">
+        <div class="svc-icon">📱</div>
+        <div class="svc-name">Paid Social</div>
+        <p class="svc-desc">Meta + Google campaigns engineered around signed cases, not impressions. Hyper-targeted to Atlanta-area injury victims.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">Campaign strategy &amp; setup</div>
+          <div class="svc-del">Ad creative production</div>
+          <div class="svc-del">Weekly optimization</div>
+          <div class="svc-del">Monthly reporting</div>
+        </div>
+      </div>
+      <div class="svc-card a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div class="svc-icon">🎬</div>
+        <div class="svc-name">Brand Video</div>
+        <p class="svc-desc">Talking head content, case story videos, and short-form reels that put your face and voice in front of thousands every week.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">Monthly shoot days</div>
+          <div class="svc-del">Edited reels + long-form</div>
+          <div class="svc-del">Distribution strategy</div>
+          <div class="svc-del">attorney.nik content system</div>
+        </div>
+      </div>
+      <div class="svc-card a">
+        <div class="svc-icon">🌐</div>
+        <div class="svc-name">Website Build</div>
+        <p class="svc-desc">A premium personal brand website for attorney.nik — built to convert, designed to impress, and separated from the JIL firm identity.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">Custom design &amp; build</div>
+          <div class="svc-del">Intake / booking flow</div>
+          <div class="svc-del">Mobile + SEO optimized</div>
+          <div class="svc-del">Hosting &amp; maintenance</div>
+        </div>
+      </div>
+      <div class="svc-card a">
+        <div class="svc-icon">📍</div>
+        <div class="svc-name">Local SEO</div>
+        <p class="svc-desc">Google Maps Pack domination, local keyword ranking, and review velocity — so you show up first when someone searches "injury lawyer near me."</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">GBP optimization</div>
+          <div class="svc-del">Citation building</div>
+          <div class="svc-del">Review generation system</div>
+          <div class="svc-del">Monthly rank reporting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 4: STRATEGY ── -->
+<div class="slide" id="s4">
+  <div class="inner">
+    <div>
+      <div class="eyebrow a">The Roadmap</div>
+      <h2 class="display a" style="font-size:clamp(32px,3.8vw,52px);">90 days to<br><em>market presence.</em></h2>
+      <p class="body-text a" style="margin-top:16px;max-width:340px;">A phased approach that builds the foundation first, then turns on the traffic.</p>
+      <div class="phase-list" style="margin-top:28px;">
+        <div class="phase a">
+          <div class="phase-num">01</div>
+          <div>
+            <h4>Foundation (Weeks 1–3)</h4>
+            <p>Website build, brand identity, Google Business Profile, social account setup, first video shoot.</p>
+            <div class="phase-timeline">Weeks 1–3</div>
+          </div>
+        </div>
+        <div class="phase a">
+          <div class="phase-num">02</div>
+          <div>
+            <h4>Launch (Weeks 4–6)</h4>
+            <p>Paid campaigns go live on Meta + Google. First content batch published. SEO citations submitted.</p>
+            <div class="phase-timeline">Weeks 4–6</div>
+          </div>
+        </div>
+        <div class="phase a">
+          <div class="phase-num">03</div>
+          <div>
+            <h4>Optimize (Weeks 7–12)</h4>
+            <p>Campaign data drives creative iteration. Content velocity increases. Ranking progress visible.</p>
+            <div class="phase-timeline">Weeks 7–12</div>
+          </div>
+        </div>
+        <div class="phase a">
+          <div class="phase-num">04</div>
+          <div>
+            <h4>Scale (Month 4+)</h4>
+            <p>Double down on what's converting. Increase ad budget on proven campaigns. SEO momentum compounds.</p>
+            <div class="phase-timeline">Month 4 onwards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="strat-right">
+      <div class="eyebrow a" style="margin-bottom:24px;">Projected Channel Mix</div>
+      <div class="channel-bars a">
+        <div class="ch-bar-item">
+          <div class="ch-bar-header"><span class="ch-bar-name">Brand Video / Organic</span><span class="ch-bar-val" style="color:var(--gold-light);">55%</span></div>
+          <div class="ch-bar-track"><div class="ch-bar-fill" data-w="55"></div></div>
+        </div>
+        <div class="ch-bar-item">
+          <div class="ch-bar-header"><span class="ch-bar-name">Meta Ads (Awareness + Retarget)</span><span class="ch-bar-val">20%</span></div>
+          <div class="ch-bar-track"><div class="ch-bar-fill" data-w="20"></div></div>
+        </div>
+        <div class="ch-bar-item">
+          <div class="ch-bar-header"><span class="ch-bar-name">Google Search PPC</span><span class="ch-bar-val">15%</span></div>
+          <div class="ch-bar-track"><div class="ch-bar-fill" data-w="15"></div></div>
+        </div>
+        <div class="ch-bar-item">
+          <div class="ch-bar-header"><span class="ch-bar-name">Local SEO / Maps Pack</span><span class="ch-bar-val">10%</span></div>
+          <div class="ch-bar-track"><div class="ch-bar-fill" data-w="10"></div></div>
+        </div>
+      </div>
+      <div class="roi-card a" style="margin-top:28px;">
+        <div class="big">10<em>×+</em></div>
+        <div class="sub">Target ROAS by Month 4</div>
+        <p style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);margin-top:10px;line-height:1.6;">Brand video is the multiplier — organic content warms the audience, paid retargeting closes. On a $5K–$15K avg case value, a single signed case from content you made once pays for months of production.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 5: INVESTMENT ── -->
+<div class="slide" id="s5">
+  <div class="inner">
+    <div class="pricing-header">
+      <div class="eyebrow a" style="justify-content:center;">Your Path</div>
+      <h2 class="display a" style="font-size:clamp(30px,4vw,54px);">Three ways to<br><em>get started.</em></h2>
+      <p class="body-text a" style="max-width:480px;margin:12px auto 40px;">Pick the level that matches where you are right now. You can always scale up — and you will.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pkg a">
+        <div class="pkg-badge">Path 01</div>
+        <div class="pkg-name">Foundation</div>
+        <div class="pkg-price">$2,500 <span>/ mo</span></div>
+        <p class="pkg-desc">Get online, get visible, start generating. The entry point for building a real pipeline from scratch.</p>
+        <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+        <div class="pkg-items">
+          <div class="pkg-item included">Website build (one-time)</div>
+          <div class="pkg-item included">Google Business Profile</div>
+          <div class="pkg-item included">1 paid channel</div>
+          <div class="pkg-item included">Monthly reporting</div>
+          <div class="pkg-item">Brand video</div>
+          <div class="pkg-item">Local SEO</div>
+        </div>
+        <div style="margin-top:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">Best for: getting started</div>
+      </div>
+      <div class="pkg featured a">
+        <div class="pkg-badge">Path 02 · Recommended ✦</div>
+        <div class="pkg-name">Growth</div>
+        <div class="pkg-price">$4,500 <span>/ mo</span></div>
+        <p class="pkg-desc">The full system running together. This is the path that builds a personal brand people actually recognize.</p>
+        <div style="height:1px;background:rgba(201,168,76,0.2);margin:8px 0;"></div>
+        <div class="pkg-items">
+          <div class="pkg-item included">Everything in Foundation</div>
+          <div class="pkg-item included">Meta + Google (both)</div>
+          <div class="pkg-item included">Monthly shoot + 4 reels</div>
+          <div class="pkg-item included">Local SEO + citations</div>
+          <div class="pkg-item included">Weekly strategy calls</div>
+          <div class="pkg-item included">Full creative production</div>
+        </div>
+        <div style="margin-top:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Best for: building real momentum</div>
+      </div>
+      <div class="pkg a">
+        <div class="pkg-badge">Path 03</div>
+        <div class="pkg-name">Elite</div>
+        <div class="pkg-price">$7,500 <span>/ mo</span></div>
+        <p class="pkg-desc">Maximum output across every channel. When you're ready to be the most recognized PI attorney in Atlanta.</p>
+        <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+        <div class="pkg-items">
+          <div class="pkg-item included">Everything in Growth</div>
+          <div class="pkg-item included">Aggressive ad budget mgmt</div>
+          <div class="pkg-item included">Weekly content drops</div>
+          <div class="pkg-item included">PR + media placement</div>
+          <div class="pkg-item included">Dedicated account manager</div>
+          <div class="pkg-item included">Quarterly brand strategy</div>
+        </div>
+        <div style="margin-top:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">Best for: owning the market</div>
+      </div>
+    </div>
+    <div class="pricing-note a" style="margin-top:20px;">All paths · 3-month minimum · Ad spend billed separately · One-time website build: $3,500</div>
+  </div>
+</div>
+
+<!-- ── SLIDE 6: WHY TRANSCEND ── -->
+<div class="slide" id="s6">
+  <div class="slide-bg"><div class="orb" style="width:600px;height:600px;bottom:-200px;left:-100px;background:radial-gradient(circle,rgba(201,168,76,0.05),transparent 70%);"></div></div>
+  <div class="inner">
+    <div class="s6-left">
+      <div class="eyebrow a">Why Transcend</div>
+      <h2 class="display a" style="font-size:clamp(30px,3.8vw,54px);">We don't chase<br>what works.<br><em>We find it first.</em></h2>
+      <div class="flywheel a">
+        <div class="flywheel-title">The Long Game</div>
+        <div class="flywheel-quote">"Scale your brand → you become the lead → cost drops → you delegate. The pipeline runs itself."</div>
+        <div class="flywheel-steps">
+          <span class="fw-step">Brand <em>grows</em></span>
+          <span class="fw-arrow">→</span>
+          <span class="fw-step">You <em>are</em> the lead</span>
+          <span class="fw-arrow">→</span>
+          <span class="fw-step">Cost <em>drops</em></span>
+          <span class="fw-arrow">→</span>
+          <span class="fw-step">You <em>delegate</em></span>
+        </div>
+      </div>
+    </div>
+    <div class="s6-right">
+      <div class="why-pill a">
+        <div class="why-pill-icon">⚡</div>
+        <div><h4>Always ahead of the curve</h4><p>We're testing trends before they go mainstream. By the time everyone else catches on, our clients are already there.</p></div>
+      </div>
+      <div class="why-pill a">
+        <div class="why-pill-icon">🤖</div>
+        <div><h4>AI built into everything</h4><p>Content ideation, ad targeting, audience analysis — AI at every layer. Not as a gimmick. As infrastructure.</p></div>
+      </div>
+      <div class="why-pill a">
+        <div class="why-pill-icon">🎯</div>
+        <div><h4>Media expertise + tech depth</h4><p>Years of campaigns and digital products. We understand how people actually behave online — and build around that.</p></div>
+      </div>
+      <div class="why-pill gold a">
+        <div class="why-pill-icon">🎯</div>
+        <div><h4>Your campaign always has our full attention</h4><p>No juggling 30 clients across 10 industries. Every hour we spend is intentional — on your content, your campaigns, your growth. Nothing gets put on autopilot.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 7: NEXT STEPS ── -->
+<div class="slide" id="s7">
+  <div class="slide-bg"><div class="orb orb-1"></div></div>
+  <div class="inner">
+    <div class="eyebrow a" style="justify-content:center;">Let's Move</div>
+    <h2 class="display a" style="font-size:clamp(40px,5.5vw,76px);">Ready to build<br><em>your brand?</em></h2>
+    <p class="body-text a" style="margin:16px auto 0;max-width:520px;">Genuinely excited to work on this with you, Nik. You've got the story, the personality, and the results — we just need to put it in front of the right people. Let's make it happen.</p>
+    <div class="s7-steps">
+      <div class="step-card a">
+        <div class="step-num">01</div>
+        <h4>Pick your package</h4>
+        <p>Foundation, Growth, or Elite — choose what fits where you're at right now.</p>
+      </div>
+      <div class="step-card a">
+        <div class="step-num">02</div>
+        <h4>We align on strategy</h4>
+        <p>One session to lock in targeting, messaging, and your content direction.</p>
+      </div>
+      <div class="step-card a">
+        <div class="step-num">03</div>
+        <h4>Live in 3 weeks</h4>
+        <p>Website built, ads running, content filming. From handshake to live campaigns fast.</p>
+      </div>
+    </div>
+    <p class="body-text a" style="margin:0 auto 28px;font-size:13px;">Any questions before we go? Shoot me a text — you've got my number.</p>
+    <div class="cta-row a">
+      <button class="btn-gold" onclick="goTo(7,1)">Get Started →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 8: CHOOSE YOUR TIER + PAYMENT ── -->
+<div class="slide" id="s8" style="background:var(--dark);">
+  <div class="slide-bg"><div class="orb" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 65%);"></div></div>
+  <div class="inner" style="max-width:1100px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div class="eyebrow a" style="justify-content:center;">Choose Your Tier</div>
+      <h2 class="display a" style="font-size:clamp(30px,4vw,52px);">Pick a package.<br><em>Let's get to work.</em></h2>
+    </div>
+    <div class="pricing-grid" style="margin-bottom:16px;">
+      <div class="pkg a">
+        <div class="pkg-badge">Starter</div>
+        <div class="pkg-name">Foundation</div>
+        <div class="pkg-price">$2,500 <span>/ mo</span></div>
+        <p class="pkg-desc">Get your brand online and first campaigns running.</p>
+        <div class="pkg-items">
+          <div class="pkg-item included">Website build (one-time)</div>
+          <div class="pkg-item included">Google Business Profile</div>
+          <div class="pkg-item included">1 paid channel (Meta or Google)</div>
+          <div class="pkg-item included">Monthly performance report</div>
+          <div class="pkg-item">Brand video content</div>
+          <div class="pkg-item">Local SEO</div>
+        </div>
+        <button class="pkg-cta-ghost" onclick="openModal('foundation')">Select Foundation</button>
+      </div>
+      <div class="pkg featured a">
+        <div class="pkg-badge">Most Popular ✦</div>
+        <div class="pkg-name">Growth</div>
+        <div class="pkg-price">$4,500 <span>/ mo</span></div>
+        <p class="pkg-desc">The full attorney.nik system running in parallel.</p>
+        <div class="pkg-items">
+          <div class="pkg-item included">Everything in Foundation</div>
+          <div class="pkg-item included">Meta + Google (both channels)</div>
+          <div class="pkg-item included">Monthly shoot + 4 reels</div>
+          <div class="pkg-item included">Local SEO + citations</div>
+          <div class="pkg-item included">Weekly strategy calls</div>
+          <div class="pkg-item included">Full creative production</div>
+        </div>
+        <button class="pkg-cta" onclick="openModal('growth')">Select Growth</button>
+      </div>
+      <div class="pkg a">
+        <div class="pkg-badge">Full Domination</div>
+        <div class="pkg-name">Elite</div>
+        <div class="pkg-price">$7,500 <span>/ mo</span></div>
+        <p class="pkg-desc">Maximum output. For attorneys ready to own their market.</p>
+        <div class="pkg-items">
+          <div class="pkg-item included">Everything in Growth</div>
+          <div class="pkg-item included">Aggressive ad budget mgmt</div>
+          <div class="pkg-item included">Weekly content drops</div>
+          <div class="pkg-item included">PR + media placement</div>
+          <div class="pkg-item included">Dedicated account manager</div>
+          <div class="pkg-item included">Quarterly brand strategy</div>
+        </div>
+        <button class="pkg-cta-ghost" onclick="openModal('elite')">Select Elite</button>
+      </div>
+    </div>
+    <div class="pricing-note a">3-month minimum · Ad spend billed separately · One-time website build: $3,500</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div id="nav">
+  <span id="nav-info">01 / 08</span>
+  <div id="nav-dots"></div>
+  <button class="nav-btn" id="prevBtn">&#8592;</button>
+  <button class="nav-btn" id="nextBtn">&#8594;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dots = document.getElementById('nav-dots');
+const info = document.getElementById('nav-info');
+const progress = document.getElementById('progress');
+let cur = 0;
+const total = slides.length;
+
+// Build dots
+slides.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (i===0?' on':'');
+  d.onclick = () => goTo(i);
+  dots.appendChild(d);
+});
+
+function updateNav() {
+  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('on', i===cur));
+  info.textContent = String(cur+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  progress.style.width = ((cur+1)/total*100) + '%';
+}
+
+window.goTo = function goTo(next, dir) {
+  if(next === cur) return;
+  const direction = dir !== undefined ? dir : (next > cur ? 1 : -1);
+  const outClass = direction > 0 ? 'exit-left' : 'exit-right';
+  const inClass  = direction > 0 ? 'enter-right' : 'enter-left';
+  const outSlide = slides[cur];
+  const inSlide  = slides[next];
+  outSlide.classList.add(outClass);
+  outSlide.classList.remove('active');
+  inSlide.style.opacity = '0';
+  inSlide.classList.add('active');
+  inSlide.classList.add(inClass);
+  // Reset .a elements for re-animation
+  inSlide.querySelectorAll('.a').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = '';
+  });
+  setTimeout(() => {
+    outSlide.classList.remove(outClass);
+    inSlide.classList.remove(inClass);
+    inSlide.style.opacity = '';
+    // trigger bars if s4
+    if(next === 3) triggerBars();
+  }, 560);
+  cur = next;
+  updateNav();
+}
+
+document.getElementById('nextBtn').onclick = () => cur < total-1 && goTo(cur+1, 1);
+document.getElementById('prevBtn').onclick = () => cur > 0 && goTo(cur-1, -1);
+
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') cur < total-1 && goTo(cur+1,1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') cur > 0 && goTo(cur-1,-1);
+});
+
+// Touch swipe
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if(Math.abs(dx) > 50) dx > 0 ? (cur < total-1 && goTo(cur+1,1)) : (cur > 0 && goTo(cur-1,-1));
+});
+
+// Bars animation
+function triggerBars() {
+  document.querySelectorAll('.ch-bar-fill').forEach(b => {
+    b.style.width = '0';
+    setTimeout(() => b.style.width = b.dataset.w + '%', 300);
+  });
+}
+
+updateNav();
+</script>
+
+<!-- ── PAYMENT MODAL ── -->
+<div id="pay-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);align-items:center;justify-content:center;">
+  <div id="pay-modal" style="background:#161616;border:1px solid rgba(201,168,76,0.25);border-radius:24px;padding:44px 40px;width:min(520px,calc(100vw - 40px));position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.7);">
+    <!-- Close -->
+    <button onclick="closeModal()" style="position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.06);border:none;color:rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    <!-- Header -->
+    <div style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:#c9a84c;margin-bottom:12px;">Transcend Media × attorney.nik</div>
+    <div id="pay-pkg-name" style="font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:#fff;margin-bottom:4px;"></div>
+    <div id="pay-pkg-price" style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.4);margin-bottom:28px;"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:28px;"></div>
+    <!-- What's included summary -->
+    <div id="pay-pkg-items" style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px;"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:24px;"></div>
+    <!-- Form -->
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <input id="pay-name" type="text" placeholder="Full name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <input id="pay-email" type="email" placeholder="Email address" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      </div>
+      <!-- Stripe card element placeholder -->
+      <div id="card-element-wrap" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;min-height:44px;display:flex;align-items:center;">
+        <div id="card-element" style="width:100%;"></div>
+        <div id="card-placeholder" style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.25);">Card number · MM/YY · CVC</div>
+      </div>
+    </div>
+    <!-- Note -->
+    <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);line-height:1.6;margin-bottom:20px;">3-month minimum commitment. First month charged today. Ad spend billed separately. By clicking below you agree to our service terms.</div>
+    <!-- CTA -->
+    <button id="pay-submit-btn" onclick="handlePayment()" style="width:100%;background:#c9a84c;color:#080808;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;padding:16px;border-radius:100px;border:none;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      Confirm &amp; Pay — <span id="pay-btn-amount"></span>
+    </button>
+    <div id="pay-msg" style="margin-top:14px;text-align:center;font-size:13px;color:rgba(255,255,255,0.4);display:none;"></div>
+  </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// ── PAYMENT CONFIG ──
+// Replace with your live Stripe publishable key before going live
+const STRIPE_PK = 'pk_test_REPLACE_WITH_YOUR_STRIPE_KEY';
+const PACKAGES = {
+  foundation: {
+    name: 'Foundation Package',
+    price: '$2,500 / mo',
+    amount: 250000, // cents
+    display: '$2,500',
+    items: ['Website build (one-time)', 'Google Business Profile setup', '1 paid channel (Meta or Google)', 'Monthly performance report']
+  },
+  growth: {
+    name: 'Growth Package',
+    price: '$4,500 / mo',
+    amount: 450000,
+    display: '$4,500',
+    items: ['Everything in Foundation', 'Meta + Google (both channels)', 'Monthly video shoot + 4 reels', 'Local SEO + citation building', 'Weekly strategy calls', 'Full creative production']
+  },
+  elite: {
+    name: 'Elite Package',
+    price: '$7,500 / mo',
+    amount: 750000,
+    display: '$7,500',
+    items: ['Everything in Growth', 'Aggressive ad budget management', 'Weekly video content drops', 'PR + media placement strategy', 'Dedicated account manager', 'Quarterly brand strategy session']
+  }
+};
+
+let stripe, cardEl, selectedPkg;
+
+function initStripe() {
+  try {
+    stripe = Stripe(STRIPE_PK);
+    const elements = stripe.elements({ appearance: { theme: 'night', variables: { colorPrimary: '#c9a84c', borderRadius: '10px', fontFamily: 'Outfit, sans-serif' } } });
+    cardEl = elements.create('card', { style: { base: { color: '#fff', fontSize: '14px', '::placeholder': { color: 'rgba(255,255,255,0.3)' } } } });
+    cardEl.mount('#card-element');
+    document.getElementById('card-placeholder').style.display = 'none';
+  } catch(e) {
+    // Stripe not loaded (no key set yet) — form still shows for demo
+    console.log('Stripe not initialized — demo mode');
+  }
+}
+
+window.openModal = function openModal(pkg) {
+  selectedPkg = PACKAGES[pkg];
+  document.getElementById('pay-pkg-name').textContent = selectedPkg.name;
+  document.getElementById('pay-pkg-price').textContent = selectedPkg.price + ' · 3-month minimum';
+  document.getElementById('pay-btn-amount').textContent = selectedPkg.display + ' today';
+  const itemsEl = document.getElementById('pay-pkg-items');
+  itemsEl.innerHTML = selectedPkg.items.map(i => `
+    <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:300;color:rgba(255,255,255,0.55);">
+      <span style="color:#c9a84c;font-size:9px;">✦</span>${i}
+    </div>`).join('');
+  document.getElementById('pay-overlay').style.display = 'flex';
+  if(!stripe) initStripe();
+}
+
+function closeModal() {
+  document.getElementById('pay-overlay').style.display = 'none';
+}
+document.getElementById('pay-overlay').addEventListener('click', e => { if(e.target === document.getElementById('pay-overlay')) closeModal(); });
+
+async function handlePayment() {
+  const name = document.getElementById('pay-name').value.trim();
+  const email = document.getElementById('pay-email').value.trim();
+  const btn = document.getElementById('pay-submit-btn');
+  const msg = document.getElementById('pay-msg');
+
+  if(!name || !email) { showMsg('Please fill in your name and email.', 'rgba(255,100,100,0.8)'); return; }
+  if(!email.includes('@')) { showMsg('Please enter a valid email address.', 'rgba(255,100,100,0.8)'); return; }
+
+  btn.textContent = 'Processing...';
+  btn.style.opacity = '0.6';
+  btn.style.pointerEvents = 'none';
+
+  if(!stripe || !cardEl) {
+    // Demo mode — no real Stripe key
+    setTimeout(() => {
+      showMsg('✦ Demo mode — Stripe key not configured yet. Real payments go live once your Stripe account is connected.', 'rgba(201,168,76,0.8)');
+      btn.textContent = 'Confirm & Pay — ' + selectedPkg.display + ' today';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'all';
+    }, 1200);
+    return;
+  }
+
+  try {
+    // Create payment method
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: 'card', card: cardEl,
+      billing_details: { name, email }
+    });
+    if(error) { showMsg(error.message, 'rgba(255,100,100,0.8)'); resetBtn(); return; }
+
+    // Send to your backend — replace URL with your actual endpoint
+    const res = await fetch('/api/create-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount: selectedPkg.amount, package: selectedPkg.name, name, email })
+    });
+    const data = await res.json();
+
+    if(data.success) {
+      showMsg('✦ Payment confirmed! Ry will be in touch within 24 hours to kick things off.', '#c9a84c');
+      btn.style.display = 'none';
+    } else {
+      showMsg(data.error || 'Payment failed. Please try again.', 'rgba(255,100,100,0.8)');
+      resetBtn();
+    }
+  } catch(e) {
+    showMsg('Something went wrong. Please try again.', 'rgba(255,100,100,0.8)');
+    resetBtn();
+  }
+}
+
+function showMsg(text, color) {
+  const msg = document.getElementById('pay-msg');
+  msg.textContent = text; msg.style.color = color; msg.style.display = 'block';
+}
+function resetBtn() {
+  const btn = document.getElementById('pay-submit-btn');
+  btn.innerHTML = 'Confirm &amp; Pay — <span id="pay-btn-amount">' + selectedPkg.display + ' today</span>';
+  btn.style.opacity = '1'; btn.style.pointerEvents = 'all';
+}
+
+// Wire up pkg buttons — handled via inline onclick on slide 8
+// Wire CTA slide 7 Get Started button is handled via inline onclick goTo(7,1)
+// Wire the old slide 5 pkg buttons too (they use openModal directly via onclick now)
+</script>
+</body>
+</html>
