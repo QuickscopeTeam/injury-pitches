@@ -11,7 +11,7 @@
 <style>
 :root {
   --black: #080808;
-  --dark: #111111;
+  --dark: #0e0e0e;
   --card: #161616;
   --border: rgba(255,255,255,0.07);
   --white: #ffffff;
@@ -26,14 +26,14 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;background:#080808;}
-body{width:100%;height:100%;min-height:100dvh;overflow:hidden;background:#080808;font-family:'Outfit',sans-serif;color:var(--white);color-scheme:dark;}
+body{width:100%;height:100%;margin:0;background:#080808;font-family:'Outfit',sans-serif;color:var(--white);color-scheme:dark;}
 
 /* ── DECK SHELL ── */
-#deck{width:100vw;height:100%;min-height:100dvh;position:relative;overflow:hidden;}
+#deck{position:fixed;top:0;left:0;right:0;bottom:0;overflow:hidden;}
 
 /* ── SLIDES ── */
 .slide{
-  position:fixed;top:0;left:0;right:0;bottom:0;
+  position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity 0s;
   padding:60px;
