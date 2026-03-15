@@ -25,9 +25,8 @@
   --accent: #c9a84c;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{height:100%;background:var(--black);}
-body{width:100%;height:100%;min-height:100dvh;overflow:hidden;background:var(--black);}
-body{font-family:'Outfit',sans-serif;color:var(--white);}
+html{height:100%;background:#080808;}
+body{width:100%;height:100%;min-height:100dvh;overflow:hidden;background:#080808;font-family:'Outfit',sans-serif;color:var(--white);color-scheme:dark;}
 
 /* ── DECK SHELL ── */
 #deck{width:100vw;height:100%;min-height:100dvh;position:relative;overflow:hidden;}
@@ -43,12 +42,7 @@ body{font-family:'Outfit',sans-serif;color:var(--white);}
   padding-left:max(60px, env(safe-area-inset-left, 0px));
   padding-right:max(60px, env(safe-area-inset-right, 0px));
 }
-/* Safari bug fix: paint slide background into safe areas behind Dynamic Island & home indicator */
-.slide::before,.slide::after{
-  content:'';position:fixed;left:0;right:0;background:inherit;z-index:-1;pointer-events:none;
-}
-.slide::before{top:calc(-1 * env(safe-area-inset-top, 50px));height:calc(env(safe-area-inset-top, 50px) + 50px);}
-.slide::after{bottom:calc(-1 * env(safe-area-inset-bottom, 50px));height:calc(env(safe-area-inset-bottom, 50px) + 50px);}
+
 .slide.active{opacity:1;pointer-events:all;}
 .slide.exit-left{animation:exitLeft 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
 .slide.enter-right{animation:enterRight 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
@@ -917,19 +911,8 @@ function updateNav() {
   progress.style.width = ((cur+1)/total*100) + '%';
 }
 
-// Sync html background + Safari theme-color to active slide
-const slideBgs = ['#080808','#080808','#111111','#080808','#111111','#080808','#080808','#111111'];
-const themeMeta = document.querySelector('meta[name="theme-color"]');
-function syncBg(i){
-  document.documentElement.style.background = slideBgs[i];
-  document.body.style.background = slideBgs[i];
-  if(themeMeta) themeMeta.setAttribute('content', slideBgs[i]);
-}
-syncBg(0);
-
 window.goTo = function goTo(next, dir) {
   if(next === cur) return;
-  syncBg(next);
   const direction = dir !== undefined ? dir : (next > cur ? 1 : -1);
   const outClass = direction > 0 ? 'exit-left' : 'exit-right';
   const inClass  = direction > 0 ? 'enter-right' : 'enter-left';
