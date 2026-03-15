@@ -914,8 +914,14 @@ function updateNav() {
   progress.style.width = ((cur+1)/total*100) + '%';
 }
 
+// Sync html background to active slide so Safari safe areas match
+const slideBgs = ['#080808','#080808','#111111','#080808','#111111','#080808','#080808','#111111'];
+function syncBg(i){ document.documentElement.style.background = slideBgs[i]; }
+syncBg(0);
+
 window.goTo = function goTo(next, dir) {
   if(next === cur) return;
+  syncBg(next);
   const direction = dir !== undefined ? dir : (next > cur ? 1 : -1);
   const outClass = direction > 0 ? 'exit-left' : 'exit-right';
   const inClass  = direction > 0 ? 'enter-right' : 'enter-left';
