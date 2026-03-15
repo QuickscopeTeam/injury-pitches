@@ -40,6 +40,12 @@ body{font-family:'Outfit',sans-serif;color:var(--white);}
   padding-left:max(60px, env(safe-area-inset-left, 0px));
   padding-right:max(60px, env(safe-area-inset-right, 0px));
 }
+/* Safari bug fix: paint slide background into safe areas behind Dynamic Island & home indicator */
+.slide::before,.slide::after{
+  content:'';position:fixed;left:0;right:0;background:inherit;z-index:-1;pointer-events:none;
+}
+.slide::before{top:calc(-1 * env(safe-area-inset-top, 50px));height:calc(env(safe-area-inset-top, 50px) + 50px);}
+.slide::after{bottom:calc(-1 * env(safe-area-inset-bottom, 50px));height:calc(env(safe-area-inset-bottom, 50px) + 50px);}
 .slide.active{opacity:1;pointer-events:all;}
 .slide.exit-left{animation:exitLeft 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
 .slide.enter-right{animation:enterRight 0.55s cubic-bezier(0.4,0,0.2,1) forwards;}
