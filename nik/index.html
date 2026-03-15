@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>attorney.nik × Transcend Media — Growth Proposal</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -914,9 +917,14 @@ function updateNav() {
   progress.style.width = ((cur+1)/total*100) + '%';
 }
 
-// Sync html background to active slide so Safari safe areas match
+// Sync html background + Safari theme-color to active slide
 const slideBgs = ['#080808','#080808','#111111','#080808','#111111','#080808','#080808','#111111'];
-function syncBg(i){ document.documentElement.style.background = slideBgs[i]; }
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+function syncBg(i){
+  document.documentElement.style.background = slideBgs[i];
+  document.body.style.background = slideBgs[i];
+  if(themeMeta) themeMeta.setAttribute('content', slideBgs[i]);
+}
 syncBg(0);
 
 window.goTo = function goTo(next, dir) {
