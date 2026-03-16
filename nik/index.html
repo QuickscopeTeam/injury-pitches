@@ -980,84 +980,63 @@ updateNav();
     <!-- What's included summary -->
     <div id="pay-pkg-items" style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px;"></div>
     <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:24px;"></div>
-    <!-- Form -->
+    <!-- Form — name and email only, card handled by Stripe Checkout -->
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
-      <div class="pay-form-row">
-        <input id="pay-name" type="text" placeholder="Full name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-        <input id="pay-email" type="email" placeholder="Email address" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
-      </div>
-      <!-- Stripe card element placeholder -->
-      <div id="card-element-wrap" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;min-height:44px;display:flex;align-items:center;">
-        <div id="card-element" style="width:100%;"></div>
-        <div id="card-placeholder" style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.25);">Card number · MM/YY · CVC</div>
-      </div>
+      <input id="pay-name" type="text" placeholder="Full name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      <input id="pay-email" type="email" placeholder="Email address" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
     </div>
     <!-- Note -->
-    <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);line-height:1.6;margin-bottom:20px;">3-month minimum commitment. First month charged today. Ad spend billed separately. By clicking below you agree to our service terms.</div>
+    <div style="font-size:12px;font-weight:300;color:rgba(255,255,255,0.25);line-height:1.6;margin-bottom:20px;">3-month minimum commitment. First month charged today. Ad spend billed separately. You'll be securely redirected to Stripe to complete payment.</div>
     <!-- CTA -->
-    <button id="pay-submit-btn" onclick="handlePayment()" style="width:100%;background:#c9a84c;color:#080808;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;padding:16px;border-radius:100px;border:none;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-      Confirm &amp; Pay — <span id="pay-btn-amount"></span>
+    <button id="pay-submit-btn" onclick="handleCheckout()" style="width:100%;background:#c9a84c;color:#080808;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;padding:16px;border-radius:100px;border:none;cursor:pointer;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      Continue to Payment — <span id="pay-btn-amount"></span>
     </button>
     <div id="pay-msg" style="margin-top:14px;text-align:center;font-size:13px;color:rgba(255,255,255,0.4);display:none;"></div>
+    <div style="margin-top:16px;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span style="font-size:11px;color:rgba(255,255,255,0.2);font-weight:300;">Secured by Stripe</span>
+    </div>
   </div>
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
 <script>
-// ── PAYMENT CONFIG ──
-// Replace with your live Stripe publishable key before going live
-const STRIPE_PK = 'pk_test_REPLACE_WITH_YOUR_STRIPE_KEY';
+// ── PAYMENT CONFIG — STRIPE CHECKOUT REDIRECT ──
 const PACKAGES = {
   foundation: {
     name: 'Foundation Package',
     price: '$2,500 / mo',
-    amount: 250000, // cents
     display: '$2,500',
-    items: ['Website build (one-time)', 'Google Business Profile setup', '1 paid channel (Meta or Google)', 'Monthly performance report']
+    items: ['Website build (one-time)', 'Google Business Profile setup', '1 paid channel (Meta or Google)', 'Monthly performance report', 'Brand video content', 'Local SEO']
   },
   growth: {
     name: 'Growth Package',
     price: '$4,500 / mo',
-    amount: 450000,
     display: '$4,500',
     items: ['Everything in Foundation', 'Meta + Google (both channels)', 'Monthly video shoot + 4 reels', 'Local SEO + citation building', 'Weekly strategy calls', 'Full creative production']
   },
   elite: {
     name: 'Elite Package',
     price: '$7,500 / mo',
-    amount: 750000,
     display: '$7,500',
     items: ['Everything in Growth', 'Aggressive ad budget management', 'Weekly video content drops', 'PR + media placement strategy', 'Dedicated account manager', 'Quarterly brand strategy session']
   }
 };
 
-let stripe, cardEl, selectedPkg;
-
-function initStripe() {
-  try {
-    stripe = Stripe(STRIPE_PK);
-    const elements = stripe.elements({ appearance: { theme: 'night', variables: { colorPrimary: '#c9a84c', borderRadius: '10px', fontFamily: 'Outfit, sans-serif' } } });
-    cardEl = elements.create('card', { style: { base: { color: '#fff', fontSize: '14px', '::placeholder': { color: 'rgba(255,255,255,0.3)' } } } });
-    cardEl.mount('#card-element');
-    document.getElementById('card-placeholder').style.display = 'none';
-  } catch(e) {
-    // Stripe not loaded (no key set yet) — form still shows for demo
-    console.log('Stripe not initialized — demo mode');
-  }
-}
+let selectedPkgId;
 
 window.openModal = function openModal(pkg) {
-  selectedPkg = PACKAGES[pkg];
-  document.getElementById('pay-pkg-name').textContent = selectedPkg.name;
-  document.getElementById('pay-pkg-price').textContent = selectedPkg.price + ' · 3-month minimum';
-  document.getElementById('pay-btn-amount').textContent = selectedPkg.display + ' today';
+  selectedPkgId = pkg;
+  const p = PACKAGES[pkg];
+  document.getElementById('pay-pkg-name').textContent = p.name;
+  document.getElementById('pay-pkg-price').textContent = p.price + ' · 3-month minimum';
+  document.getElementById('pay-btn-amount').textContent = p.display;
   const itemsEl = document.getElementById('pay-pkg-items');
-  itemsEl.innerHTML = selectedPkg.items.map(i => `
+  itemsEl.innerHTML = p.items.map(i => `
     <div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:300;color:rgba(255,255,255,0.55);">
       <span style="color:#c9a84c;font-size:9px;">✦</span>${i}
     </div>`).join('');
   document.getElementById('pay-overlay').style.display = 'flex';
-  if(!stripe) initStripe();
+  document.getElementById('pay-msg').style.display = 'none';
 }
 
 function closeModal() {
@@ -1065,55 +1044,34 @@ function closeModal() {
 }
 document.getElementById('pay-overlay').addEventListener('click', e => { if(e.target === document.getElementById('pay-overlay')) closeModal(); });
 
-async function handlePayment() {
+async function handleCheckout() {
   const name = document.getElementById('pay-name').value.trim();
   const email = document.getElementById('pay-email').value.trim();
   const btn = document.getElementById('pay-submit-btn');
-  const msg = document.getElementById('pay-msg');
 
   if(!name || !email) { showMsg('Please fill in your name and email.', 'rgba(255,100,100,0.8)'); return; }
   if(!email.includes('@')) { showMsg('Please enter a valid email address.', 'rgba(255,100,100,0.8)'); return; }
 
-  btn.textContent = 'Processing...';
+  btn.textContent = 'Redirecting to Stripe...';
   btn.style.opacity = '0.6';
   btn.style.pointerEvents = 'none';
 
-  if(!stripe || !cardEl) {
-    // Demo mode — no real Stripe key
-    setTimeout(() => {
-      showMsg('✦ Demo mode — Stripe key not configured yet. Real payments go live once your Stripe account is connected.', 'rgba(201,168,76,0.8)');
-      btn.textContent = 'Confirm & Pay — ' + selectedPkg.display + ' today';
-      btn.style.opacity = '1';
-      btn.style.pointerEvents = 'all';
-    }, 1200);
-    return;
-  }
-
   try {
-    // Create payment method
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: 'card', card: cardEl,
-      billing_details: { name, email }
-    });
-    if(error) { showMsg(error.message, 'rgba(255,100,100,0.8)'); resetBtn(); return; }
-
-    // Send to your backend — replace URL with your actual endpoint
-    const res = await fetch('/api/create-payment', {
+    const res = await fetch('/api/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount: selectedPkg.amount, package: selectedPkg.name, name, email })
+      body: JSON.stringify({ packageId: selectedPkgId, name, email })
     });
     const data = await res.json();
 
-    if(data.success) {
-      showMsg('✦ Payment confirmed! Ry will be in touch within 24 hours to kick things off.', '#c9a84c');
-      btn.style.display = 'none';
+    if(data.url) {
+      window.location.href = data.url;
     } else {
-      showMsg(data.error || 'Payment failed. Please try again.', 'rgba(255,100,100,0.8)');
+      showMsg(data.error || 'Something went wrong. Please try again.', 'rgba(255,100,100,0.8)');
       resetBtn();
     }
   } catch(e) {
-    showMsg('Something went wrong. Please try again.', 'rgba(255,100,100,0.8)');
+    showMsg('Connection error. Please try again.', 'rgba(255,100,100,0.8)');
     resetBtn();
   }
 }
@@ -1124,13 +1082,31 @@ function showMsg(text, color) {
 }
 function resetBtn() {
   const btn = document.getElementById('pay-submit-btn');
-  btn.innerHTML = 'Confirm &amp; Pay — <span id="pay-btn-amount">' + selectedPkg.display + ' today</span>';
+  btn.innerHTML = 'Continue to Payment — <span id="pay-btn-amount">' + PACKAGES[selectedPkgId].display + '</span>';
   btn.style.opacity = '1'; btn.style.pointerEvents = 'all';
 }
 
-// Wire up pkg buttons — handled via inline onclick on slide 8
-// Wire CTA slide 7 Get Started button is handled via inline onclick goTo(7,1)
-// Wire the old slide 5 pkg buttons too (they use openModal directly via onclick now)
+// Check for payment success/cancel on page load
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('payment') === 'success') {
+    setTimeout(() => {
+      goTo(7, 1); // go to last slide
+      setTimeout(() => {
+        const overlay = document.getElementById('pay-overlay');
+        overlay.style.display = 'flex';
+        document.getElementById('pay-modal').innerHTML = `
+          <div style="text-align:center;padding:40px 20px;">
+            <div style="font-size:48px;margin-bottom:20px;">✦</div>
+            <div style="font-family:'Playfair Display',serif;font-size:28px;color:#fff;margin-bottom:12px;">Payment Confirmed</div>
+            <div style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:28px;">Thank you! Ry will be in touch within 24 hours to kick things off.</div>
+            <button onclick="document.getElementById('pay-overlay').style.display='none';history.replaceState(null,'',location.pathname);" style="background:#c9a84c;color:#080808;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;padding:14px 32px;border-radius:100px;border:none;cursor:pointer;">Got it</button>
+          </div>`;
+      }, 600);
+    }, 300);
+    history.replaceState(null, '', location.pathname);
+  }
+})();
 </script>
 </body>
 </html>
