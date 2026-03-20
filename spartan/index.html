@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>844 SPARTAN × Transcend Media — Production Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #09090f;
+  --dark: #0f0f18;
+  --card: #13131e;
+  --border: rgba(255,255,255,0.07);
+  --white: #ffffff;
+  --off: #f0ede8;
+  --muted: #6a6a7a;
+  --silver: #a0a0a8;
+  --gold: #c9a84c;
+  --gold-light: #dfc278;
+  --gold-dim: rgba(201,168,76,0.10);
+  --gold-border: rgba(201,168,76,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--black);}
+body{font-family:'DM Sans',sans-serif;color:var(--white);}
+
+/* ── DECK ── */
+#deck{width:100vw;height:100vh;position:relative;overflow:hidden;}
+
+/* ── SLIDES ── */
+.slide{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;padding:60px 60px 100px 60px;
+}
+.slide.active{opacity:1;pointer-events:all;}
+.slide.exit-left{animation:exitLeft 0.5s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.enter-right{animation:enterRight 0.5s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.exit-right{animation:exitRight 0.5s cubic-bezier(0.4,0,0.2,1) forwards;}
+.slide.enter-left{animation:enterLeft 0.5s cubic-bezier(0.4,0,0.2,1) forwards;}
+
+@keyframes exitLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-60px)}}
+@keyframes enterRight{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes exitRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
+@keyframes enterLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── GLOBAL BG ── */
+.slide-bg{position:absolute;inset:0;z-index:0;}
+.noise{position:absolute;inset:0;opacity:0.016;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;}
+.orb{position:absolute;border-radius:50%;pointer-events:none;}
+
+/* ── NAV ── */
+#nav{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  z-index:1000;display:flex;align-items:center;
+  background:rgba(19,19,30,0.92);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:100px;
+  padding:8px 8px 8px 20px;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.7);
+}
+#nav-info{font-size:11px;letter-spacing:0.15em;color:var(--muted);white-space:nowrap;}
+#nav-dots{display:flex;gap:6px;align-items:center;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);cursor:pointer;transition:background 0.2s,transform 0.2s;}
+.nav-dot.on{background:var(--gold);transform:scale(1.4);}
+.nav-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--silver);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,color 0.2s;flex-shrink:0;}
+.nav-btn:hover{background:var(--gold);color:var(--black);}
+
+/* ── PROGRESS ── */
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:999;transition:width 0.4s ease;}
+
+/* ── WATERMARK ── */
+#wm{position:fixed;top:24px;right:28px;z-index:999;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.15);}
+
+/* ── INNER ── */
+.inner{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;}
+
+/* ── ANIM ── */
+.a{opacity:0;transform:translateY(18px);}
+.active .a{animation:fadeUp 0.55s ease forwards;}
+.active .a:nth-child(1){animation-delay:0.08s}
+.active .a:nth-child(2){animation-delay:0.16s}
+.active .a:nth-child(3){animation-delay:0.24s}
+.active .a:nth-child(4){animation-delay:0.32s}
+.active .a:nth-child(5){animation-delay:0.40s}
+.active .a:nth-child(6){animation-delay:0.48s}
+.active .a:nth-child(7){animation-delay:0.56s}
+.active .a:nth-child(8){animation-delay:0.64s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* ── SHARED TYPOGRAPHY ── */
+.display{font-family:'Instrument Serif',serif;font-size:clamp(38px,5vw,68px);line-height:1.1;color:var(--white);}
+.display em{color:var(--gold);font-style:italic;}
+.eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--gold);}
+.body-text{font-size:15px;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;}
+.label{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.rule{width:100%;height:1px;background:var(--border);margin:24px 0;}
+
+/* ── SLIDE 1: COVER ── */
+#s1 .inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+#s1 .s1-left{}
+#s1 .kicker{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+#s1 .tagline{font-size:16px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.7;margin-top:16px;max-width:400px;}
+#s1 .s1-badge{
+  display:inline-flex;align-items:center;gap:10px;margin-top:28px;
+  font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--border);border-radius:100px;padding:8px 16px;
+}
+#s1 .s1-right{display:flex;flex-direction:column;gap:14px;}
+#s1 .s1-stat{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;
+}
+#s1 .s1-from{font-size:11px;letter-spacing:0.1em;color:var(--muted);padding:10px 0;}
+
+/* ── SLIDE 2: WHAT WE HEARD ── */
+#s2 .inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.insight-box{
+  background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:14px;
+  padding:20px 22px;margin-top:24px;
+}
+.iq{font-size:14px;font-weight:300;color:rgba(255,255,255,0.75);line-height:1.7;font-style:italic;}
+.iq-src{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-top:10px;}
+.opp-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:18px 20px;display:flex;gap:16px;align-items:flex-start;
+}
+.opp-card h4{font-size:13px;font-weight:500;margin-bottom:5px;}
+.opp-card p{font-size:13px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.6;}
+.opp-num{font-family:'Instrument Serif',serif;font-size:24px;color:var(--muted);line-height:1;flex-shrink:0;padding-top:2px;}
+.s2-right{display:flex;flex-direction:column;gap:12px;}
+
+/* ── SLIDE 3: WHAT WE DELIVER ── */
+#s3 .services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;}
+#s3 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.svc-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:22px 20px;display:flex;flex-direction:column;gap:10px;
+}
+.svc-icon{font-size:22px;}
+.svc-name{font-size:15px;font-weight:600;}
+.svc-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.6;flex:1;}
+.svc-deliverables{display:flex;flex-direction:column;gap:5px;margin-top:6px;}
+.svc-del{font-size:11px;letter-spacing:0.05em;color:rgba(201,168,76,0.7);padding-left:12px;position:relative;}
+.svc-del::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:10px;}
+
+/* ── SLIDE 4: NUMBERS ── */
+#s4 .inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.numbers-left{}
+.cost-breakdown{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+.cost-line{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px;
+}
+.cost-label{font-size:13px;font-weight:400;color:rgba(255,255,255,0.75);}
+.cost-sub{font-size:11px;font-weight:300;color:var(--muted);margin-top:2px;}
+.cost-val{font-family:'Instrument Serif',serif;font-size:20px;color:var(--white);}
+.cost-val.gold{color:var(--gold);}
+.cost-total{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 20px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:12px;margin-top:4px;
+}
+.cost-total .cost-label{font-weight:600;font-size:14px;}
+.cost-total .cost-val{font-size:28px;color:var(--gold);}
+
+.numbers-right{display:flex;flex-direction:column;gap:14px;}
+.vol-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;
+}
+.vol-card h4{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.vol-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.vol-stat-val{font-family:'Instrument Serif',serif;font-size:32px;color:var(--white);line-height:1;}
+.vol-stat-label{font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px;font-weight:300;}
+.scope-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.scope-item{font-size:12px;font-weight:300;color:rgba(255,255,255,0.5);padding-left:14px;position:relative;line-height:1.5;}
+.scope-item::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:8px;top:3px;}
+
+/* ── SLIDE 5: WHAT'S INCLUDED ── */
+#s5 .inner{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+.incl-section{display:flex;flex-direction:column;gap:10px;}
+.incl-section h3{font-family:'Instrument Serif',serif;font-size:22px;margin-bottom:4px;}
+.incl-block{
+  background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px 18px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.incl-block .block-title{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.incl-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.5;}
+.incl-check{color:var(--gold);font-size:11px;margin-top:2px;flex-shrink:0;}
+.right-note{
+  background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:14px;padding:20px 22px;margin-top:4px;
+}
+
+/* ── SLIDE 6: NEXT STEPS ── */
+#s6 .inner{text-align:center;max-width:700px;}
+.step-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:36px 0;}
+.step-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:left;
+}
+.step-num{font-family:'Instrument Serif',serif;font-size:36px;color:var(--gold-dim);line-height:1;margin-bottom:10px;border-bottom:1px solid var(--border);padding-bottom:10px;}
+.step-card h4{font-size:14px;font-weight:500;margin-bottom:6px;}
+.step-card p{font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.6;}
+.btn-gold{
+  background:var(--gold);color:#000;font-family:'DM Sans',sans-serif;font-size:11px;
+  font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  padding:14px 32px;border-radius:8px;border:none;cursor:pointer;
+  transition:background 0.2s;
+}
+.btn-gold:hover{background:var(--gold-light);}
+.cta-row{display:flex;justify-content:center;gap:12px;margin-top:4px;}
+
+/* ── ORB PRESETS ── */
+.orb-1{width:500px;height:500px;top:-150px;right:-100px;background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%);}
+.orb-2{width:400px;height:400px;bottom:-150px;left:-80px;background:radial-gradient(circle,rgba(201,168,76,0.04),transparent 70%);}
+
+/* ── SLIDE 6: VIDEO SHOWCASE ── */
+#s6-vid .inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.phones-row{display:flex;gap:20px;align-items:flex-end;justify-content:center;}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;}
+.phone-wrap.center-phone{transform:translateY(-20px);}
+.phone-shell{
+  position:relative;
+  width:100%;
+  max-width:160px;
+  aspect-ratio:9/16;
+  border-radius:22px;
+  border:2px solid rgba(255,255,255,0.12);
+  overflow:hidden;
+  background:#000;
+  box-shadow:0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+.phone-shell::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60px;height:4px;background:rgba(255,255,255,0.15);border-radius:0 0 4px 4px;z-index:10;
+}
+.phone-video{width:100%;height:100%;object-fit:cover;display:block;}
+.phone-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 50%);
+  z-index:2;
+}
+.phone-label{
+  position:absolute;bottom:12px;left:12px;right:12px;z-index:3;
+}
+.phone-type{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.phone-title{font-size:11px;font-weight:500;color:#fff;line-height:1.3;}
+.phone-meta{font-size:9px;font-weight:300;color:rgba(255,255,255,0.4);margin-top:2px;}
+.phone-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-top:8px;
+}
+.phone-badge::before{content:'▶';color:var(--gold);font-size:7px;}
+.phone-play-pulse{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(201,168,76,0.15);border:1.5px solid var(--gold-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--gold);
+  transition:opacity 0.4s;
+}
+.phone-shell.playing .phone-play-pulse{opacity:0;}
+
+/* ── RESPONSIVE ── */
+@media (max-width:1024px){
+  .slide{padding:40px 40px 100px 40px;}
+  #s1 .inner,#s2 .inner,#s4 .inner,#s5 .inner{grid-template-columns:1fr;gap:32px;}
+  #s1 .s1-right{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  #s3 .services-grid{grid-template-columns:1fr 1fr;}
+  #s3 .services-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  .step-row{grid-template-columns:1fr;}
+  .vol-stats{grid-template-columns:repeat(4,1fr);}
+  #s6 .inner{grid-template-columns:1fr;gap:24px;}
+  .phones-row{gap:12px;}
+  .phone-shell{max-width:130px;}
+}
+@media (max-width:680px){
+  .slide{padding:24px 24px 100px 24px;}
+  .display{font-size:clamp(28px,7vw,44px);}
+  #s1 .s1-right{grid-template-columns:1fr;}
+  #s3 .services-grid{grid-template-columns:1fr;}
+  .vol-stats{grid-template-columns:1fr 1fr;}
+  .step-row{gap:10px;}
+  #s4 .inner{gap:24px;}
+  .phone-shell{max-width:100px;border-radius:14px;}
+  .phone-wrap.center-phone{transform:translateY(-12px);}
+}
+@media (max-width:380px){
+  .slide{padding:18px 16px 100px 16px;}
+  #nav{padding:5px 5px 5px 10px;gap:6px;}
+  #nav-info{font-size:9px;}
+  .nav-btn{width:28px;height:28px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="wm">Transcend Media × 844 SPARTAN</div>
+<div class="noise"></div>
+
+<div id="deck">
+
+<!-- ── SLIDE 1: COVER ── -->
+<div class="slide active" id="s1">
+  <div class="slide-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+  <div class="inner">
+    <div class="s1-left">
+      <div class="kicker a">Content Production Proposal · 2026</div>
+      <div class="display a">Turning 844-SPARTAN<br>into the firm<br><em>everyone sees.</em></div>
+      <p class="tagline a">A done-for-you content engine — built for volume, built for trust, built to keep your name in front of the people who need you.</p>
+      <div class="s1-badge a">✦ &nbsp; Presented by Transcend Media Agency</div>
+    </div>
+    <div class="s1-right">
+      <div class="s1-stat a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div>
+          <div style="color:var(--gold);font-family:'Instrument Serif',serif;font-size:20px;line-height:1.35;">"$250M recovered. 65,000 cases won. Now it's time people actually know that."</div>
+          <div class="label" style="margin-top:8px;color:rgba(201,168,76,0.6);">— Ryan Page, Transcend Media</div>
+        </div>
+      </div>
+      <div class="s1-stat a">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="label" style="margin-bottom:2px;">You have the proof. You need the presence.</div>
+          <div style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.65;">Multi-state footprint, 30+ attorneys, massive case wins — all of it is invisible to someone scrolling their feed right now. We fix that.</div>
+        </div>
+      </div>
+      <div class="s1-stat a">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="label" style="margin-bottom:2px;">This is what we talked about.</div>
+          <div style="font-size:14px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.65;">2 shoot days a month. 8–10 videos a week. A consistent content machine that makes 844-SPARTAN the name people trust before they ever need a lawyer.</div>
+        </div>
+      </div>
+      <div class="s1-from a" style="font-size:11px;letter-spacing:0.1em;color:var(--muted);padding:10px 0;">Prepared exclusively for 844-SPARTAN / Spartan Law Group</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 2: THE OPPORTUNITY ── -->
+<div class="slide" id="s2">
+  <div class="slide-bg"><div class="orb" style="width:550px;height:550px;top:-100px;right:-120px;background:radial-gradient(circle,rgba(201,168,76,0.05),transparent 70%);"></div></div>
+  <div class="inner">
+    <div>
+      <div class="eyebrow a">The Opportunity</div>
+      <h2 class="display a">$250M recovered.<br>8 states served.<br><em>Now the world sees it.</em></h2>
+      <p class="body-text a" style="margin-top:18px;max-width:380px;">The biggest PI firms don't win on results alone. They win on familiarity. Clients call the name they've seen a hundred times — not the one with the best reviews they've never heard of.</p>
+      <div class="insight-box a">
+        <div class="iq">"The known firm wins. You've got 75 years of combined experience, $250M in recoveries, and 65,000+ cases. Your content should make all of that impossible to ignore."</div>
+        <div class="iq-src">✦ &nbsp; Transcend Media, March 2026</div>
+      </div>
+    </div>
+    <div class="s2-right">
+      <div class="opp-card a">
+        <div class="opp-num">01</div>
+        <div><h4>Volume builds trust</h4><p>8–10 videos a week means your name is showing up across platforms constantly. That repetition is the difference between a firm someone remembers and one they forget.</p></div>
+      </div>
+      <div class="opp-card a">
+        <div class="opp-num">02</div>
+        <div><h4>Multi-state reach, local feel</h4><p>You operate in Georgia, Alabama, Tennessee, Texas, Ohio and more. Content that speaks to each market — without losing the Spartan identity — is a major competitive edge.</p></div>
+      </div>
+      <div class="opp-card a">
+        <div class="opp-num">03</div>
+        <div><h4>Content that converts, not just performs</h4><p>Every video answers one question: does this make someone want to call 844-SPARTAN? If not, we cut it.</p></div>
+      </div>
+      <div class="opp-card a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div class="opp-num" style="color:var(--gold);">✦</div>
+        <div><h4 style="color:var(--gold);">Same-day response is a content story</h4><p style="color:rgba(255,255,255,0.5);">You guarantee a same-day response. That's rare in PI law. It's also a hook, a value prop, and a series — and most firms aren't telling that story. You should be.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 3: WHAT WE DELIVER ── -->
+<div class="slide" id="s3">
+  <div class="inner">
+    <div class="services-header">
+      <div>
+        <div class="eyebrow a">What We Build</div>
+        <h2 class="display a" style="font-size:clamp(30px,3.8vw,52px);">Three pillars of the<br><em>Spartan content system.</em></h2>
+      </div>
+      <p class="body-text a" style="max-width:260px;text-align:right;">Each piece feeds the next — nothing exists in isolation.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card a" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <div class="svc-icon">🎬</div>
+        <div class="svc-name">Production</div>
+        <p class="svc-desc">Two full shoot days per month at your Sandy Springs office — or on location. We show up with a crew, we direct, we capture everything.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">2 shoot days / month</div>
+          <div class="svc-del">Multi-camera setup</div>
+          <div class="svc-del">Talking heads + B-roll</div>
+          <div class="svc-del">30–40 raw clips captured</div>
+        </div>
+      </div>
+      <div class="svc-card a">
+        <div class="svc-icon">✂️</div>
+        <div class="svc-name">Post-Production</div>
+        <p class="svc-desc">Every clip edited, captioned, formatted, and ready to publish across Instagram, TikTok, YouTube Shorts, and Facebook. No bottlenecks on your end.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">8–10 edited videos / week</div>
+          <div class="svc-del">Captions + subtitles</div>
+          <div class="svc-del">Platform-specific formatting</div>
+          <div class="svc-del">Thumbnail + cover frames</div>
+        </div>
+      </div>
+      <div class="svc-card a">
+        <div class="svc-icon">🧠</div>
+        <div class="svc-name">Strategy & Management</div>
+        <p class="svc-desc">We handle the calendar, the concepts, and the performance data. You stay focused on cases — we stay focused on your content.</p>
+        <div class="svc-deliverables">
+          <div class="svc-del">Monthly content calendar</div>
+          <div class="svc-del">Hook writing + scripting</div>
+          <div class="svc-del">Performance review</div>
+          <div class="svc-del">Bi-weekly strategy sync</div>
+        </div>
+      </div>
+      <div class="svc-card a" style="border-color:var(--gold-border);background:var(--gold-dim);grid-column:1/-1;">
+        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;">
+            <div class="svc-icon">🔍</div>
+            <div class="svc-name" style="color:var(--gold);">Pre-Production Research & Scripting</div>
+            <p class="svc-desc" style="color:rgba(255,255,255,0.55);">We do the homework before we ever walk in the door. Every shoot day is prepped, scripted, and ready to execute — no wasted time on set.</p>
+          </div>
+          <div style="display:flex;gap:32px;flex-wrap:wrap;padding-top:4px;">
+            <div class="svc-deliverables">
+              <div class="svc-del">Keyword & trend research completed 7+ days before each shoot</div>
+              <div class="svc-del">Script concepts & video briefs delivered to attorneys for review</div>
+            </div>
+            <div class="svc-deliverables">
+              <div class="svc-del">All attorney amendments incorporated before shoot day</div>
+              <div class="svc-del">Final approved scripts ready — zero day-of surprises</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 4: THE NUMBERS ── -->
+<div class="slide" id="s4">
+  <div class="slide-bg"><div class="orb" style="width:500px;height:500px;top:50%;right:-100px;transform:translateY(-50%);background:radial-gradient(circle,rgba(201,168,76,0.05),transparent 70%);"></div></div>
+  <div class="inner">
+    <div class="numbers-left">
+      <div class="eyebrow a">Investment Breakdown</div>
+      <h2 class="display a" style="font-size:clamp(30px,3.5vw,48px);">What this<br><em>looks like.</em></h2>
+      <p class="body-text a" style="margin-top:12px;max-width:340px;">Simple, transparent, and built for the volume you asked for.</p>
+      <div class="cost-breakdown a">
+        <div class="cost-line">
+          <div>
+            <div class="cost-label">Production</div>
+            <div class="cost-sub">2 shoot days/mo · full crew · on-location</div>
+          </div>
+          <div class="cost-val">$2,000</div>
+        </div>
+        <div class="cost-line">
+          <div>
+            <div class="cost-label">Post-Production & Editing</div>
+            <div class="cost-sub">~40 videos/mo · captions · formatting</div>
+          </div>
+          <div class="cost-val">$1,800</div>
+        </div>
+        <div class="cost-line">
+          <div>
+            <div class="cost-label">Scripting & Pre-Production</div>
+            <div class="cost-sub">Keyword research · briefs · script concepts</div>
+          </div>
+          <div class="cost-val">$800</div>
+        </div>
+        <div class="cost-line">
+          <div>
+            <div class="cost-label">Content Strategy & Management</div>
+            <div class="cost-sub">Calendar · performance calls · oversight</div>
+          </div>
+          <div class="cost-val">$700</div>
+        </div>
+        <div class="cost-line">
+          <div>
+            <div class="cost-label">Distribution Formatting</div>
+            <div class="cost-sub">Reels · TikTok · YouTube Shorts cuts</div>
+          </div>
+          <div class="cost-val">$500</div>
+        </div>
+        <div class="rule" style="margin:6px 0;"></div>
+        <div class="cost-total">
+          <div>
+            <div class="cost-label">Monthly Total</div>
+            <div class="cost-sub">~36–40 videos delivered per month</div>
+          </div>
+          <div class="cost-val gold">$5,800</div>
+        </div>
+      </div>
+    </div>
+    <div class="numbers-right a">
+      <div class="vol-card">
+        <h4>Output at a glance</h4>
+        <div class="vol-stats">
+          <div>
+            <div class="vol-stat-val">2</div>
+            <div class="vol-stat-label">Shoot days / month</div>
+          </div>
+          <div>
+            <div class="vol-stat-val">8–10</div>
+            <div class="vol-stat-label">Videos / week</div>
+          </div>
+          <div>
+            <div class="vol-stat-val" style="color:var(--gold);">~40</div>
+            <div class="vol-stat-label">Videos / month</div>
+          </div>
+          <div>
+            <div class="vol-stat-val">480+</div>
+            <div class="vol-stat-label">Videos / year</div>
+          </div>
+        </div>
+      </div>
+      <div class="vol-card" style="border-color:var(--gold-border);background:var(--gold-dim);">
+        <h4>Per video cost</h4>
+        <div style="font-family:'Instrument Serif',serif;font-size:48px;color:var(--gold);line-height:1;margin:8px 0;">$145</div>
+        <div style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.6;">End-to-end per video — shot, edited, captioned, formatted, and delivered ready to post. A single case signs and this retainer pays for itself many times over.</div>
+      </div>
+      <div class="vol-card">
+        <h4>Terms</h4>
+        <div class="scope-list">
+          <div class="scope-item">3-month minimum engagement</div>
+          <div class="scope-item">Monthly billing, net-15</div>
+          <div class="scope-item">Travel outside Atlanta billed separately</div>
+          <div class="scope-item">Additional shoot days available at $1,400/day</div>
+          <div class="scope-item">Rush edits available upon request</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 5: WHAT'S INCLUDED ── -->
+<div class="slide" id="s5">
+  <div class="inner">
+    <div>
+      <div class="eyebrow a">Full Scope</div>
+      <h2 class="display a" style="font-size:clamp(28px,3.5vw,48px);">Everything included.<br><em>Nothing left out.</em></h2>
+      <p class="body-text a" style="margin-top:12px;max-width:340px;">Every deliverable, every month. You don't manage anything on this list — we do.</p>
+      <div class="right-note a" style="margin-top:24px;">
+        <div style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Built for volume. Built for quality.</div>
+        <div style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;">40 videos a month isn't something most production teams can sustain without the quality falling apart. We built a system specifically so it doesn't — every shoot day is planned in advance, every edit is quality-checked, and every video ships on time.</div>
+      </div>
+    </div>
+    <div class="incl-section a">
+      <div class="incl-block">
+        <div class="block-title">Production</div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>2 full shoot days per month at your location</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Multi-camera setup (primary + B-roll)</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Professional lighting + audio</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Pre-shoot call to align on topics + talking points</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>On-set direction for performance and delivery</div></div>
+      </div>
+      <div class="incl-block">
+        <div class="block-title">Editing & Post</div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>8–10 fully edited short-form videos per week</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Captions, subtitles, and motion graphics</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Platform-specific cuts (Reels, TikTok, YT Shorts)</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Cover frames + thumbnail assets</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Final delivery via shared drive, ready to post</div></div>
+      </div>
+      <div class="incl-block" style="border-color:var(--gold-border);">
+        <div class="block-title">Strategy & Management</div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Monthly content calendar with topic + hook for each video</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Hook writing and opening-line scripting</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Bi-weekly performance review call</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Trend monitoring and format testing</div></div>
+        <div class="incl-row"><div class="incl-check">✦</div><div>Dedicated point of contact — always reachable</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 6: OUR WORK ── -->
+<div class="slide" id="s6">
+  <div class="slide-bg">
+    <div class="orb" style="width:500px;height:500px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(201,168,76,0.06),transparent 70%);"></div>
+    <div class="orb" style="width:400px;height:400px;bottom:-100px;left:-80px;background:radial-gradient(circle,rgba(201,168,76,0.04),transparent 70%);"></div>
+  </div>
+  <div class="inner" style="display:grid;grid-template-columns:1fr 1.4fr;gap:50px;align-items:center;">
+
+    <!-- LEFT: copy -->
+    <div>
+      <div class="eyebrow a">Our Work</div>
+      <h2 class="display a" style="font-size:clamp(28px,3.5vw,48px);">This is what<br><em>we actually make.</em></h2>
+      <p class="body-text a" style="margin-top:14px;max-width:320px;">Real content from real shoots — talking heads, testimonials, brand films. This is the volume and quality you're signing up for.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;">
+        <div class="a" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;font-weight:400;">Talking Head</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:300;">Direct response · 30 sec</div>
+        </div>
+        <div class="a" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;font-weight:400;">Client Testimonial</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:300;">Trust-building · 45 sec</div>
+        </div>
+        <div class="a" style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:12px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;font-weight:400;color:var(--gold);">Brand Film</div>
+          <div style="font-size:11px;color:rgba(201,168,76,0.5);font-weight:300;">Cinematic · 60 sec</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: laptop on top + two phones below -->
+    <div class="a" style="display:flex;flex-direction:column;gap:18px;align-items:center;">
+
+      <!-- LAPTOP MOCKUP: Talking Head (horizontal) -->
+      <div style="width:100%;max-width:480px;">
+        <div style="
+          position:relative;
+          width:100%;
+          background:#1a1a1a;
+          border-radius:10px 10px 0 0;
+          border:2px solid rgba(255,255,255,0.1);
+          border-bottom:none;
+          overflow:hidden;
+        ">
+          <!-- laptop top bar -->
+          <div style="height:22px;background:#222;display:flex;align-items:center;padding:0 10px;gap:6px;border-bottom:1px solid rgba(255,255,255,0.07);">
+            <div style="width:7px;height:7px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#28c840;"></div>
+          </div>
+          <!-- 16:9 video area -->
+          <div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;">
+            <video id="vid1" muted loop playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"
+              src="https://rouleswzplzxkapwcelz.supabase.co/storage/v1/object/public/videos/Captions_ADF41B%20(1).mov">
+            </video>
+            <div id="phone1" style="position:absolute;inset:0;"></div>
+          </div>
+        </div>
+        <!-- laptop base -->
+        <div style="width:100%;height:10px;background:#2a2a2a;border-radius:0 0 4px 4px;border:2px solid rgba(255,255,255,0.08);border-top:none;"></div>
+        <div style="width:110%;margin-left:-5%;height:5px;background:#222;border-radius:0 0 6px 6px;margin-top:1px;"></div>
+        <!-- label -->
+        <div style="text-align:center;margin-top:10px;">
+          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);">Talking Head</div>
+        </div>
+      </div>
+
+      <!-- TWO PHONES: Testimonial + Brand Film -->
+      <div style="display:flex;gap:24px;justify-content:center;align-items:flex-start;">
+
+        <!-- Phone: Testimonial -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div id="phone2" style="
+            position:relative;width:110px;aspect-ratio:9/16;
+            border-radius:16px;border:2px solid rgba(255,255,255,0.12);
+            overflow:hidden;background:#000;
+            box-shadow:0 16px 48px rgba(0,0,0,0.6);
+          ">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:3px;background:rgba(255,255,255,0.12);border-radius:0 0 3px 3px;z-index:10;"></div>
+            <video id="vid2" muted loop playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"
+              src="https://rouleswzplzxkapwcelz.supabase.co/storage/v1/object/public/videos/Client%20Testimonial%201.mp4">
+            </video>
+          </div>
+          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);">Testimonial</div>
+        </div>
+
+        <!-- Phone: Brand Film -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div id="phone3" style="
+            position:relative;width:110px;aspect-ratio:9/16;
+            border-radius:16px;border:2px solid rgba(255,255,255,0.12);
+            overflow:hidden;background:#000;
+            box-shadow:0 16px 48px rgba(0,0,0,0.6);
+          ">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:40px;height:3px;background:rgba(255,255,255,0.12);border-radius:0 0 3px 3px;z-index:10;"></div>
+            <video id="vid3" muted loop playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"
+              src="https://rouleswzplzxkapwcelz.supabase.co/storage/v1/object/public/videos/pi%20Commercial%201.mp4">
+            </video>
+          </div>
+          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);">Brand Film</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── SLIDE 7: NEXT STEPS ── -->
+<div class="slide" id="s7">
+  <div class="slide-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb" style="width:400px;height:400px;bottom:-100px;left:-80px;background:radial-gradient(circle,rgba(201,168,76,0.04),transparent 70%);"></div>
+  </div>
+  <div class="inner">
+    <div class="eyebrow a" style="justify-content:center;">Let's Move</div>
+    <h2 class="display a" style="font-size:clamp(40px,5.5vw,70px);text-align:center;">Ready to build<br><em>the machine?</em></h2>
+    <p class="body-text a" style="margin:14px auto 0;max-width:480px;text-align:center;">You've got the results, the reputation, and the track record. The only thing missing is the volume of content that makes it all visible. Let's fix that.</p>
+    <div class="step-row a">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h4>We agree on scope</h4>
+        <p>Confirm shoot days, content pillars, and posting schedule. One alignment call — then we're off.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h4>First shoot within 2 weeks</h4>
+        <p>We'll have a content calendar ready before we walk in the door. Show up, we handle the rest.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h4>First videos live in week 3</h4>
+        <p>First batch of edited videos delivered and publishing within 3 weeks of kickoff. Clean, fast, no drag.</p>
+      </div>
+    </div>
+    <p class="body-text a" style="margin:0 auto 24px;font-size:13px;text-align:center;">Questions? I'm one text away. You've got my number.</p>
+    <div class="cta-row a">
+      <button class="btn-gold" onclick="window.open('https://app.pandadoc.com/document/v2?token=fc0e33bd0819b4456132908fad69f43abd75ed20','_blank')">Let's Get Started →</button>
+    </div>
+    <div class="a" style="margin-top:20px;text-align:center;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);">Transcend Media Agency · transcendmedia.io</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div id="nav">
+  <span id="nav-info">01 / 07</span>
+  <div id="nav-dots"></div>
+  <button class="nav-btn" id="prevBtn">&#8592;</button>
+  <button class="nav-btn" id="nextBtn">&#8594;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+let animating = false;
+
+const progressEl = document.getElementById('progress');
+const navInfo = document.getElementById('nav-info');
+const dotsEl = document.getElementById('nav-dots');
+
+// build dots
+slides.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (i===0?' on':'');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function updateUI(){
+  progressEl.style.width = ((cur+1)/total*100)+'%';
+  navInfo.textContent = String(cur+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  document.querySelectorAll('.nav-dot').forEach((d,i)=>{
+    d.classList.toggle('on', i===cur);
+  });
+}
+
+// ── VIDEO AUTOPLAY: play all phone videos when slide 6 is active ──
+const VIDEO_SLIDE_INDEX = 5; // 0-based index of the Our Work slide
+const phoneVids = ['vid1','vid2','vid3'].map(id => document.getElementById(id));
+const phoneShells = ['phone1','phone2','phone3'].map(id => document.getElementById(id));
+
+function startPhoneVideos(){
+  phoneVids.forEach((v, i) => {
+    if(!v) return;
+    v.currentTime = 0;
+    v.play().then(() => {
+      if(phoneShells[i]) phoneShells[i].classList.add('playing');
+    }).catch(() => {});
+  });
+}
+
+function stopPhoneVideos(){
+  phoneVids.forEach((v, i) => {
+    if(!v) return;
+    v.pause();
+    v.currentTime = 0;
+    if(phoneShells[i]) phoneShells[i].classList.remove('playing');
+  });
+}
+
+function goTo(next, dir){
+  if(animating || next===cur || next<0 || next>=total) return;
+  animating = true;
+
+  // stop videos when leaving slide 6
+  if(cur === VIDEO_SLIDE_INDEX) stopPhoneVideos();
+
+  const direction = (dir !== undefined) ? dir : (next > cur ? 1 : -1);
+  const from = slides[cur];
+  const to = slides[next];
+
+  if(direction > 0){
+    from.classList.add('exit-left');
+    to.classList.add('enter-right');
+  } else {
+    from.classList.add('exit-right');
+    to.classList.add('enter-left');
+  }
+  to.classList.add('active');
+
+  setTimeout(()=>{
+    from.classList.remove('active','exit-left','exit-right');
+    to.classList.remove('enter-right','enter-left');
+    cur = next;
+    animating = false;
+    updateUI();
+    // start videos when arriving at slide 6
+    if(cur === VIDEO_SLIDE_INDEX) startPhoneVideos();
+  }, 520);
+}
+
+document.getElementById('prevBtn').onclick = () => goTo(cur-1, -1);
+document.getElementById('nextBtn').onclick = () => goTo(cur+1, 1);
+
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') goTo(cur+1,1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') goTo(cur-1,-1);
+});
+
+// touch/swipe
+let tx = null;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  if(tx===null) return;
+  const diff = tx - e.changedTouches[0].clientX;
+  if(Math.abs(diff) > 50) diff > 0 ? goTo(cur+1,1) : goTo(cur-1,-1);
+  tx = null;
+});
+
+updateUI();
+</script>
+</body>
+</html>
