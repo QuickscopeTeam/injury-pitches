@@ -271,22 +271,57 @@ body{font-family:'DM Sans',sans-serif;color:var(--white);}
   .phones-row{gap:12px;}
   .phone-shell{max-width:130px;}
 }
-@media (max-width:680px){
-  .slide{padding:24px 24px 100px 24px;}
-  .display{font-size:clamp(28px,7vw,44px);}
+@media (max-width:768px){
+  html,body{overflow:hidden;}
+  #deck{overflow:hidden;}
+  .slide{
+    overflow-y:auto;overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding:24px 20px 120px 20px;
+    align-items:flex-start;
+  }
+  .inner{max-width:100%;}
+  .display{font-size:clamp(26px,7vw,40px);}
+  #s1 .inner,#s2 .inner,#s4 .inner,#s5 .inner{grid-template-columns:1fr;gap:24px;}
   #s1 .s1-right{grid-template-columns:1fr;}
   #s3 .services-grid{grid-template-columns:1fr;}
+  #s3 .services-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  #s3 .services-header .body-text{text-align:left;}
+  .svc-card[style*="grid-column"]{grid-column:auto !important;}
+  .svc-card[style*="grid-column"] > div{flex-direction:column;}
+  .step-row{grid-template-columns:1fr;gap:10px;}
   .vol-stats{grid-template-columns:1fr 1fr;}
-  .step-row{gap:10px;}
-  #s4 .inner{gap:24px;}
+  .cost-line{flex-direction:column;align-items:flex-start;gap:6px;}
+  .cost-total{flex-direction:column;align-items:flex-start;gap:6px;}
+  #s6 .inner{grid-template-columns:1fr !important;gap:24px !important;}
+  .phones-row{gap:10px;flex-wrap:nowrap;justify-content:center;}
   .phone-shell{max-width:100px;border-radius:14px;}
   .phone-wrap.center-phone{transform:translateY(-12px);}
+  #wm{font-size:8px;right:16px;top:16px;}
+  #nav{padding:6px 6px 6px 14px;gap:8px;}
+  #nav-info{font-size:9px;letter-spacing:0.1em;}
+  .nav-dot{width:4px;height:4px;}
+  .nav-btn{width:30px;height:30px;font-size:12px;}
+  .eyebrow{font-size:10px;}
+  .body-text{font-size:14px;}
+  .insight-box{padding:16px 18px;}
+  .opp-card{padding:14px 16px;gap:12px;}
+  .opp-num{font-size:20px;}
+  .incl-block{padding:14px 16px;}
+  .right-note{padding:16px 18px;}
+  .btn-gold{padding:12px 24px;font-size:10px;}
+  .cta-row{flex-direction:column;align-items:center;gap:8px;}
 }
 @media (max-width:380px){
-  .slide{padding:18px 16px 100px 16px;}
+  .slide{padding:18px 14px 110px 14px;}
+  .display{font-size:clamp(22px,6.5vw,34px);}
   #nav{padding:5px 5px 5px 10px;gap:6px;}
-  #nav-info{font-size:9px;}
+  #nav-info{font-size:8px;}
   .nav-btn{width:28px;height:28px;font-size:11px;}
+  .vol-stat-val{font-size:24px;}
+  .cost-val{font-size:16px;}
+  .cost-total .cost-val{font-size:22px;}
+  .phone-shell{max-width:80px;border-radius:12px;}
 }
 </style>
 </head>
